@@ -1,0 +1,239 @@
+/* static/css/converters.css */
+/* Estilos específicos para as ferramentas de conversão */
+/* Redefinir o layout específico desta página */
+#csv-json-converter .editor-container {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-tertiary, #111827);
+    border-radius: var(--border-radius, 0.5rem);
+    border: 1px solid var(--border, #374151);
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Melhor layout para os botões de controle */
+#csv-json-converter .control-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--bg-tertiary, #111827);
+    border-bottom: 1px solid var(--border, #374151);
+}
+
+/* Botões de modo mais destacados */
+#csv-json-converter #csv-to-json-btn,
+#csv-json-converter #json-to-csv-btn {
+    padding: 0.75rem 1.25rem;
+    font-weight: 500;
+    border-radius: var(--border-radius, 0.5rem);
+    transition: all 0.2s ease;
+    min-width: 140px;
+    text-align: center;
+}
+
+/* Botão CSV para JSON */
+#csv-json-converter #csv-to-json-btn {
+    background-color: #3b82f6;
+    color: white;
+}
+
+#csv-json-converter #csv-to-json-btn:hover {
+    background-color: #2563eb;
+}
+
+/* Botão JSON para CSV */
+#csv-json-converter #json-to-csv-btn {
+    background-color: #10b981;
+    color: white;
+}
+
+#csv-json-converter #json-to-csv-btn:hover {
+    background-color: #059669;
+}
+
+/* Botões de ação */
+#csv-json-converter #convert-btn,
+#csv-json-converter #copy-btn,
+#csv-json-converter #clear-btn {
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--border-radius, 0.5rem);
+}
+
+#csv-json-converter #convert-btn {
+    background-color: #3b82f6;
+    color: white;
+}
+
+#csv-json-converter #convert-btn:hover {
+    background-color: #2563eb;
+}
+
+#csv-json-converter #copy-btn {
+    background-color: var(--bg-button, #374151);
+    color: var(--text-primary, #f9fafb);
+}
+
+#csv-json-converter #clear-btn {
+    background-color: #ef4444;
+    color: white;
+}
+
+/* Melhorias para a barra de opções */
+#csv-json-converter .option-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 1rem;
+    background-color: var(--bg-secondary, #1e293b);
+    border-bottom: 1px solid var(--border, #374151);
+}
+
+/* Seletor de delimitador */
+#csv-json-converter #delimiter-select {
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--border-radius, 0.25rem);
+    border: 1px solid var(--border, #374151);
+    background-color: var(--bg-input, #111827);
+    color: var(--text-primary, #f9fafb);
+    font-size: 0.9rem;
+    min-width: 150px;
+}
+
+/* Checkbox customizado */
+#csv-json-converter .option-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-primary, #f9fafb);
+    font-size: 0.9rem;
+}
+
+/* Layout do editor em duas colunas */
+#csv-json-converter .editor-wrapper {
+    display: flex;
+    flex-direction: row;
+    height: 60vh;
+    min-height: 400px;
+}
+
+/* Colunas de entrada/saída */
+#csv-json-converter .editor-pane {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border, #374151);
+}
+
+#csv-json-converter .editor-pane:last-child {
+    border-right: none;
+}
+
+/* Rótulos de entrada/saída */
+#csv-json-converter .editor-label {
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    font-size: 1rem;
+    background-color: var(--bg-tertiary, #111827);
+    color: var(--text-primary, #f9fafb);
+    border-bottom: 1px solid var(--border, #374151);
+}
+
+/* Campo de entrada */
+#csv-json-converter #input-text {
+    flex: 1;
+    padding: 1rem;
+    background-color: var(--bg-input, #1a202c);
+    color: var(--text-primary, #f9fafb);
+    border: none;
+    resize: none;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Campo de saída */
+#csv-json-converter #output-text {
+    flex: 1;
+    padding: 1rem;
+    background-color: var(--bg-input, #1a202c);
+    color: var(--text-primary, #f9fafb);
+    font-family: var(--font-mono, monospace);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    overflow: auto;
+    white-space: pre-wrap;
+}
+
+/* Layout responsivo */
+@media (max-width: 767px) {
+    #csv-json-converter .editor-wrapper {
+        flex-direction: column;
+        height: auto;
+    }
+    
+    #csv-json-converter .editor-pane {
+        min-height: 200px;
+        border-right: none;
+        border-bottom: 1px solid var(--border, #374151);
+    }
+    
+    #csv-json-converter .editor-pane:last-child {
+        border-bottom: none;
+    }
+    
+    #csv-json-converter #input-text,
+    #csv-json-converter #output-text {
+        height: 200px;
+    }
+    
+    #csv-json-converter .control-bar {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    #csv-json-converter .control-group {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Animação para o botão de conversão */
+#csv-json-converter #convert-btn .fa-sync-alt {
+    transition: transform 0.5s ease;
+}
+
+#csv-json-converter #convert-btn:hover .fa-sync-alt {
+    transform: rotate(180deg);
+}
+
+/* Mensagem de erro */
+#csv-json-converter .error-message {
+    margin-top: 0;
+    border-radius: 0;
+}
+
+/* Modo claro */
+html[data-theme="light"] #csv-json-converter .editor-label,
+html[data-theme="light"] #csv-json-converter .control-bar,
+html[data-theme="light"] #csv-json-converter .option-bar {
+    background-color: #f1f5f9;
+    border-color: #e2e8f0;
+}
+
+html[data-theme="light"] #csv-json-converter #input-text,
+html[data-theme="light"] #csv-json-converter #output-text {
+    background-color: #ffffff;
+    color: #1e293b;
+    border-color: #e2e8f0;
+}
+
+html[data-theme="light"] #csv-json-converter #delimiter-select {
+    background-color: #ffffff;
+    border-color: #cbd5e1;
+    color: #1e293b;
+}
+
+html[data-theme="light"] #csv-json-converter .option-checkbox-label {
+    color: #1e293b;
+}

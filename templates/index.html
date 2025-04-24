@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="hero">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1 class="hero-title">Bem-vindo ao <span class="highlight">SquidCoder.dev</span></h1>
+                        <p class="hero-description">Ferramentas gratuitas e eficientes para desenvolvedores.</p>
+                        <a href="/tools" class="hero-button">Explorar Ferramentas <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="hero-image">
+                        <img src="/static/img/logo.svg" alt="Ilustração de ferramentas de desenvolvimento">
+                    </div>
+                </div>
+            </section>
+
+            <!--  <section class="features">
+                <div class="container">
+                    <h2 class="section-title">Ferramentas em Destaque</h2>
+
+                    <div class="tools-grid">
+                        {{range .Tools}}
+                        <div class="tool-card">
+                            <div class="tool-icon">
+                                <i class="fas fa-{{.Icon}}"></i>
+                            </div>
+                            <h3 class="tool-name">{{.Name}}</h3>
+                            <p class="tool-description">{{.Description}}</p>
+                            <a href="{{.Route}}" class="tool-link">Usar Ferramenta <i
+                                    class="fas fa-chevron-right"></i></a>
+                        </div>
+                        {{end}}
+                    </div>
+                </div>
+            </section> -->
+
+            <section class="features">
+                <div class="container">
+                    <div class="about-content">
+                        <h2 class="section-title">Sobre o SquidCoder.dev</h2>
+                        <p>O SquidCoder.dev oferece ferramentas gratuitas para ajudar desenvolvedores
+                            em suas tarefas diárias. Todas as ferramentas são construídas para garantir
+                            desempenho e confiabilidade.</p>
+                        <p>Nosso objetivo é simplificar fluxos de trabalho comuns do desenvolvimento e fornecer
+                            ferramentas úteis sem custos ou limitações.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Apenas carrega o JavaScript comum -->
+    <script src="/static/js/common.js"></script>
+</body>
+
+</html>

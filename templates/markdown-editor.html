@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="markdown-editor">
+                <div class="tool-header">
+                    <h1 class="tool-title">Editor Markdown</h1>
+                    <p class="tool-description">Edite e visualize markdown em tempo real</p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="control-bar">
+                        <button id="bold-btn" class="tool-btn" title="Negrito"><i class="fas fa-bold"></i></button>
+                        <button id="italic-btn" class="tool-btn" title="Itálico"><i class="fas fa-italic"></i></button>
+                        <button id="heading-btn" class="tool-btn" title="Título"><i class="fas fa-heading"></i></button>
+                        <button id="link-btn" class="tool-btn" title="Link"><i class="fas fa-link"></i></button>
+                        <button id="image-btn" class="tool-btn" title="Imagem"><i class="fas fa-image"></i></button>
+                        <button id="list-btn" class="tool-btn" title="Lista"><i class="fas fa-list"></i></button>
+                        <button id="code-btn" class="tool-btn" title="Código"><i class="fas fa-code"></i></button>
+                        <div class="spacer"></div>
+                        <button id="preview-toggle" class="tool-btn">Visualizar</button>
+                        <button id="copy-md-btn" class="tool-btn">Copiar</button>
+                        <button id="clear-md-btn" class="tool-btn danger">Limpar</button>
+                    </div>
+
+                    <div class="markdown-container">
+                        <div id="editor-pane" class="editor-pane">
+                            <textarea id="markdown-input" placeholder="Digite seu markdown aqui..."></textarea>
+                        </div>
+                        <div id="preview-pane" class="preview-pane">
+                            <div id="markdown-preview" class="markdown-preview"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/markdown-editor.js"></script>
+</body>
+
+</html>

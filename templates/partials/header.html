@@ -1,0 +1,40 @@
+<!-- templates/partials/header.html -->
+<header class="site-header">
+    <div class="container">
+        <div class="logo">
+            <a href="/">
+                <img src="/static/img/logo.svg" alt="SquidCoder.dev" class="logo-image">
+                <span class="logo-text">SquidCoder<span class="highlight">.dev</span></span>
+            </a>
+        </div>
+
+        <nav class="main-nav">
+            <ul>
+                <li><a href="/" class="nav-link"><i class="fas fa-home"></i> Início</a></li>
+                <li><a href="/tools" class="nav-link"><i class="fas fa-tools"></i> Ferramentas</a></li>
+            </ul>
+        </nav>
+
+        <div class="theme-toggle">
+            <button id="theme-toggle-btn" aria-label="Alternar tema">
+                <i class="fas fa-sun light-icon"></i>
+                <i class="fas fa-moon dark-icon"></i>
+            </button>
+        </div>
+
+        <button class="mobile-menu-toggle" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-49M0R6X2ZH"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-49M0R6X2ZH');
+</script>

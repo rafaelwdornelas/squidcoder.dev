@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/dns-checker.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="dns-checker">
+                <div class="tool-header">
+                    <h1 class="tool-title">Verificador de Propagação DNS</h1>
+                    <p class="tool-description">Verifique a propagação de DNS em vários servidores pelo mundo</p>
+                </div>
+
+                <div class="tool-content dns-checker-wrapper">
+                    <div class="dns-query-bar">
+                        <input type="text" id="domain-input" class="domain-input" placeholder="squidcoder.dev" value="">
+                        <select id="record-type" class="record-type-select">
+                            <option value="A">A</option>
+                            <option value="AAAA">AAAA</option>
+                            <option value="CNAME">CNAME</option>
+                            <option value="MX">MX</option>
+                            <option value="NS" selected>NS</option>
+                            <option value="PTR">PTR</option>
+                            <option value="SOA">SOA</option>
+                            <option value="SRV">SRV</option>
+                            <option value="TXT">TXT</option>
+                        </select>
+                        <button id="check-button" class="check-button">
+                            Verificar
+                        </button>
+                    </div>
+
+                    <div class="dns-refresh-bar">
+                        <span>Atualizar:</span>
+                        <input type="number" id="refresh-time" min="5" max="300" value="30"> seg.
+                        <button id="auto-refresh" class="auto-refresh-button" title="Auto Refresh">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+
+                    <div id="error-message" class="error-message"></div>
+
+                    <div class="loading-indicator" id="loading-indicator">
+                        <div class="spinner"></div>
+                        <p>Verificando servidores DNS...</p>
+                    </div>
+
+                    <div class="dns-results-container" id="results-container">
+                        <div class="dns-results-header">
+                            <div class="dns-column location-col">Localização</div>
+                            <div class="dns-column provider-col">Provedor</div>
+                            <div class="dns-column records-col">Registros</div>
+                            <div class="dns-column time-col">Tempo</div>
+                        </div>
+                        <div class="dns-results-list" id="results-list">
+                            <!-- Resultados serão inseridos aqui via JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/dns-checker.js"></script>
+</body>
+
+</html>

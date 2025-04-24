@@ -1,0 +1,102 @@
+/* static/css/text-tools.css */
+/* Estilos específicos para as ferramentas de manipulação de texto */
+
+/* Estilos para as opções de configuração */
+.tool-options {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.option-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.option-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Estado de botões ativos */
+.tool-btn.active {
+    background-color: var(--primary);
+    color: var(--text-on-primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.tool-btn.secondary.active {
+    background-color: var(--secondary);
+    color: var(--text-on-secondary);
+}
+
+/* Estilo para contadores */
+#line-count, 
+#email-count,
+#stats-info {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* Melhorias para output */
+.output-display {
+    max-height: 400px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) var(--bg-tertiary);
+}
+
+.output-display::-webkit-scrollbar {
+    width: 8px;
+}
+
+.output-display::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+}
+
+.output-display::-webkit-scrollbar-thumb {
+    background-color: var(--primary);
+    border-radius: 4px;
+}
+
+/* Layout específico para ferramentas de texto */
+@media (min-width: 768px) {
+    .editor-container.text-tool .editor-wrapper {
+        flex-direction: column;
+    }
+    
+    .editor-container.text-tool #input-text {
+        width: 100%;
+        height: 40%;
+        min-height: 150px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+    
+    .editor-container.text-tool #output-container {
+        width: 100%;
+        height: 60%;
+    }
+}
+
+/* Animação de botão randomizar */
+.fa-random {
+    transition: transform 0.3s ease;
+}
+
+#randomize-btn:hover .fa-random {
+    transform: rotate(180deg);
+}
+
+/* Destaque para opções */
+.highlighted-option {
+    color: var(--primary);
+    font-weight: 600;
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="stylesheet" href="/static/css/crypto-tools.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="hash-generator">
+                <div class="tool-header">
+                    <h1 class="tool-title">Gerador de Hash</h1>
+                    <p class="tool-description">Gere hashes MD5, SHA-1, SHA-256 e outros para verificar integridade de
+                        dados</p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="editor-container">
+                        <div class="control-bar">
+                            <button id="generate-btn" class="tool-btn primary">
+                                <i class="fas fa-key"></i> Gerar Hashes
+                            </button>
+                            <button id="clear-btn" class="tool-btn danger">
+                                <i class="fas fa-trash-alt"></i> Limpar
+                            </button>
+                            <button id="copy-btn" class="tool-btn">
+                                <i class="fas fa-copy"></i> Copiar Tudo
+                            </button>
+                            <div class="spacer"></div>
+                            <div class="tool-options">
+                                <label class="option-label">
+                                    <input type="checkbox" id="uppercase" checked>
+                                    Maiúsculas
+                                </label>
+                            </div>
+                            <button id="load-sample-btn" class="tool-btn">
+                                <i class="fas fa-file-alt"></i> Carregar Exemplo
+                            </button>
+                        </div>
+
+                        <div class="editor-wrapper">
+                            <textarea id="input-text"
+                                placeholder="Digite ou cole o texto para gerar hashes..."></textarea>
+                            <div id="output-container">
+                                <h3>Hashes Gerados:</h3>
+                                <div class="hash-results">
+                                    <div class="hash-item">
+                                        <div class="hash-label">MD5:</div>
+                                        <div id="md5-result" class="hash-value">-</div>
+                                        <button class="copy-hash-btn" data-hash="md5">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <div class="hash-item">
+                                        <div class="hash-label">SHA-1:</div>
+                                        <div id="sha1-result" class="hash-value">-</div>
+                                        <button class="copy-hash-btn" data-hash="sha1">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <div class="hash-item">
+                                        <div class="hash-label">SHA-256:</div>
+                                        <div id="sha256-result" class="hash-value">-</div>
+                                        <button class="copy-hash-btn" data-hash="sha256">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <div class="hash-item">
+                                        <div class="hash-label">SHA-512:</div>
+                                        <div id="sha512-result" class="hash-value">-</div>
+                                        <button class="copy-hash-btn" data-hash="sha512">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="error-message" class="error-message"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha512/0.8.0/sha512.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha3/0.8.0/sha3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/hash-generator.js"></script>
+</body>
+
+</html>

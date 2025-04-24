@@ -1,0 +1,64 @@
+/* static/css/themes.css */
+/* Tema Claro */
+html[data-theme="light"] {
+    --primary: #3B82F6; /* Azul */
+    --primary-hover: #2563EB;
+    --secondary: #10B981; /* Verde */
+    --secondary-hover: #059669;
+    --danger: #EF4444; /* Vermelho */
+    --danger-hover: #DC2626;
+    
+    --text-primary: #1F2937;
+    --text-secondary: #4B5563;
+    --text-tertiary: #6B7280;
+    --text-on-primary: #FFFFFF;
+    --text-on-secondary: #FFFFFF;
+    --text-on-danger: #FFFFFF;
+    
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #F9FAFB;
+    --bg-tertiary: #F3F4F6;
+    --bg-card: #FFFFFF;
+    --bg-hover: #F3F4F6;
+    --bg-input: #F9FAFB;
+    --bg-button: #E5E7EB;
+    --bg-button-hover: #D1D5DB;
+    
+    --border: #E5E7EB;
+    
+    /* Logo específico para o tema claro */
+    --squid-primary: #3B82F6;
+    --squid-secondary: #10B981;
+}
+
+/* Tema Escuro */
+html[data-theme="dark"] {
+    --primary: #3B82F6; /* Azul */
+    --primary-hover: #60A5FA;
+    --secondary: #10B981; /* Verde */
+    --secondary-hover: #34D399;
+    --danger: #EF4444; /* Vermelho */
+    --danger-hover: #F87171;
+    
+    --text-primary: #F9FAFB;
+    --text-secondary: #E5E7EB;
+    --text-tertiary: #9CA3AF;
+    --text-on-primary: #FFFFFF;
+    --text-on-secondary: #FFFFFF;
+    --text-on-danger: #FFFFFF;
+    
+    --bg-primary: #111827;
+    --bg-secondary: #1F2937;
+    --bg-tertiary: #374151;
+    --bg-card: #1F2937;
+    --bg-hover: #374151;
+    --bg-input: #374151;
+    --bg-button: #4B5563;
+    --bg-button-hover: #6B7280;
+    
+    --border: #374151;
+    
+    /* Logo específico para o tema escuro */
+    --squid-primary: #60A5FA;
+    --squid-secondary: #34D399;
+}

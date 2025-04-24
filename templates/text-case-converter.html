@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="stylesheet" href="/static/css/encoding-tools.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="text-case-converter">
+                <div class="tool-header">
+                    <h1 class="tool-title">Conversor de Texto para Caixa Alta/Baixa</h1>
+                    <p class="tool-description">Converta texto para MAIÚSCULAS, minúsculas, Capitalizado, e invertido
+                    </p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="editor-container">
+                        <div class="control-bar">
+                            <button id="uppercase-btn" class="tool-btn primary" title="Converter para MAIÚSCULAS">
+                                <i class="fas fa-arrow-up"></i> MAIÚSCULAS
+                            </button>
+                            <button id="lowercase-btn" class="tool-btn primary" title="Converter para minúsculas">
+                                <i class="fas fa-arrow-down"></i> minúsculas
+                            </button>
+                            <button id="capitalize-btn" class="tool-btn primary"
+                                title="Converter para Cada Palavra Com A Primeira Letra Maiúscula">
+                                <i class="fas fa-font"></i> Capitalizar
+                            </button>
+                            <button id="invert-btn" class="tool-btn primary" title="Inverter A Capitalização Do Texto">
+                                <i class="fas fa-random"></i> iNVERTER
+                            </button>
+                            <div class="spacer"></div>
+                            <button id="copy-btn" class="tool-btn">
+                                <i class="fas fa-copy"></i> Copiar
+                            </button>
+                            <button id="clear-btn" class="tool-btn danger">
+                                <i class="fas fa-trash-alt"></i> Limpar
+                            </button>
+                        </div>
+
+                        <div class="editor-wrapper">
+                            <textarea id="input-text"
+                                placeholder="Digite ou cole o texto que deseja converter..."></textarea>
+                            <div id="output-container">
+                                <h3>Resultado:</h3>
+                                <div id="output-text" class="output-display"></div>
+                            </div>
+                        </div>
+                        <div id="error-message" class="error-message"></div>
+                    </div>
+
+                    <div class="tool-help">
+                        <h3>Como usar:</h3>
+                        <div class="help-content">
+                            <p><strong>MAIÚSCULAS:</strong> Converte todo o texto para caixa alta.</p>
+                            <p><strong>minúsculas:</strong> Converte todo o texto para caixa baixa.</p>
+                            <p><strong>Capitalizar:</strong> Converte a primeira letra de cada palavra para maiúscula.
+                            </p>
+                            <p><strong>iNVERTER:</strong> Inverte a capitalização de cada letra (maiúsculas viram
+                                minúsculas e vice-versa).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/text-case-converter.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="stylesheet" href="/static/css/crypto-tools.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="jwt-decoder">
+                <div class="tool-header">
+                    <h1 class="tool-title">Decodificador JWT</h1>
+                    <p class="tool-description">Decodifique tokens JWT (JSON Web Token) e visualize payload e cabeçalhos
+                    </p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="editor-container">
+                        <div class="control-bar">
+                            <button id="decode-btn" class="tool-btn primary">
+                                <i class="fas fa-unlock-alt"></i> Decodificar
+                            </button>
+                            <button id="clear-btn" class="tool-btn danger">
+                                <i class="fas fa-trash-alt"></i> Limpar
+                            </button>
+                            <button id="copy-btn" class="tool-btn">
+                                <i class="fas fa-copy"></i> Copiar Payload
+                            </button>
+                            <div class="spacer"></div>
+                            <button id="load-sample-btn" class="tool-btn">
+                                <i class="fas fa-file-alt"></i> Carregar Exemplo
+                            </button>
+                        </div>
+
+                        <div class="editor-wrapper jwt-editor-wrapper">
+                            <div class="jwt-input-container">
+                                <textarea id="input-text" placeholder="Cole seu token JWT aqui..."></textarea>
+                            </div>
+
+                            <div class="jwt-output-container">
+                                <div class="jwt-tabs">
+                                    <button id="header-tab" class="jwt-tab active">Cabeçalho</button>
+                                    <button id="payload-tab" class="jwt-tab">Payload</button>
+                                    <button id="signature-tab" class="jwt-tab">Assinatura</button>
+                                </div>
+
+                                <div id="jwt-header-content" class="jwt-content active">
+                                    <h3>Cabeçalho (Header):</h3>
+                                    <div id="header-result" class="jwt-result">
+                                        <p class="jwt-placeholder">O cabeçalho JWT será mostrado aqui após a
+                                            decodificação.</p>
+                                    </div>
+                                </div>
+
+                                <div id="jwt-payload-content" class="jwt-content">
+                                    <h3>Payload:</h3>
+                                    <div id="payload-result" class="jwt-result">
+                                        <p class="jwt-placeholder">O payload JWT será mostrado aqui após a
+                                            decodificação.</p>
+                                    </div>
+                                </div>
+
+                                <div id="jwt-signature-content" class="jwt-content">
+                                    <h3>Assinatura:</h3>
+                                    <div id="signature-result" class="jwt-result">
+                                        <p class="jwt-placeholder">A assinatura JWT codificada em base64 será mostrada
+                                            aqui.</p>
+                                    </div>
+                                    <div class="jwt-verification">
+                                        <div class="verification-status">
+                                            <span id="verification-icon" class="verification-icon">
+                                                <i class="fas fa-question-circle"></i>
+                                            </span>
+                                            <span id="verification-message">Token não verificado</span>
+                                        </div>
+                                        <p class="verification-note">Nota: Esta ferramenta apenas decodifica tokens JWT,
+                                            não verifica sua autenticidade.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="error-message" class="error-message"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/jwt-decoder.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,321 @@
+/* static/css/crypto-tools.css */
+/* Estilos específicos para as ferramentas de criptografia */
+
+/* Melhorias para textarea e campos de entrada */
+#input-text {
+    width: 100%;
+    min-height: 120px;
+    padding: 1rem;
+    background-color: var(--bg-input, #1e2431);
+    color: var(--text-primary, #f3f4f6);
+    border: 1px solid var(--border, #374151);
+    border-radius: 0.5rem;
+    font-family: var(--font-mono, monospace);
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: vertical;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#input-text:focus {
+    border-color: var(--primary, #3B82F6);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+    outline: none;
+}
+
+.jwt-input-container {
+    padding: 1rem;
+    background-color: var(--bg-tertiary, #111827);
+    border-bottom: 1px solid var(--border, #374151);
+}
+
+/* Estilos para o gerador de hash */
+.hash-results {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.hash-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    border-radius: var(--border-radius, 0.5rem);
+    background-color: var(--bg-tertiary, #111827);
+    transition: background-color 0.2s ease;
+}
+
+.hash-item:hover {
+    background-color: var(--bg-hover, #1f2937);
+}
+
+.hash-label {
+    flex: 0 0 80px;
+    font-weight: 600;
+    color: var(--text-secondary, #9ca3af);
+}
+
+.hash-value {
+    flex: 1;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.95rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 0.5rem;
+    background-color: var(--bg-input, #1e2431);
+    border-radius: 4px;
+    color: var(--text-primary, #f3f4f6);
+    border: 1px solid var(--border, #374151);
+}
+
+.copy-hash-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary, #9ca3af);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.copy-hash-btn:hover {
+    color: var(--primary, #3B82F6);
+    background-color: var(--bg-button-hover, #1f2937);
+}
+
+.copy-hash-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Estilos para o decodificador JWT */
+.jwt-editor-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+
+.jwt-output-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-top: 1px solid var(--border, #374151);
+}
+
+.jwt-tabs {
+    display: flex;
+    background-color: var(--bg-tertiary, #111827);
+    border-bottom: 1px solid var(--border, #374151);
+}
+
+.jwt-tab {
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary, #9ca3af);
+    font-weight: 500;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.jwt-tab:hover {
+    color: var(--primary, #3B82F6);
+}
+
+.jwt-tab.active {
+    color: var(--primary, #3B82F6);
+}
+
+.jwt-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--primary, #3B82F6);
+}
+
+.jwt-content {
+    display: none;
+    padding: 1.5rem;
+    flex: 1;
+    overflow-y: auto;
+    background-color: var(--bg-secondary, #1f2937);
+}
+
+.jwt-content.active {
+    display: block;
+}
+
+.jwt-content h3 {
+    margin-bottom: 1rem;
+    color: var(--text-primary, #f3f4f6);
+}
+
+.jwt-result {
+    background-color: var(--bg-input, #1e2431);
+    border-radius: var(--border-radius, 0.5rem);
+    padding: 1.5rem;
+    overflow-x: auto;
+    border: 1px solid var(--border, #374151);
+}
+
+.jwt-result pre {
+    margin: 0;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--text-primary, #f3f4f6);
+}
+
+.jwt-placeholder {
+    color: var(--text-tertiary, #6b7280);
+    font-style: italic;
+}
+
+.error-text {
+    color: var(--danger, #ef4444);
+    font-weight: 500;
+}
+
+.jwt-info {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: var(--bg-tertiary, #111827);
+    border-radius: var(--border-radius, 0.5rem);
+    font-size: 0.9rem;
+    border: 1px solid var(--border, #374151);
+}
+
+.jwt-date {
+    margin-bottom: 0.5rem;
+}
+
+.jwt-date:last-child {
+    margin-bottom: 0;
+}
+
+.jwt-expiration {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    border-radius: var(--border-radius, 0.5rem);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.jwt-expiration.expired {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
+
+.jwt-expiration.valid {
+    background-color: rgba(34, 197, 94, 0.1);
+    color: #22c55e;
+}
+
+.jwt-verification {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: var(--bg-tertiary, #111827);
+    border-radius: var(--border-radius, 0.5rem);
+    border: 1px solid var(--border, #374151);
+}
+
+.verification-status {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+}
+
+.verification-icon {
+    font-size: 1.25rem;
+}
+
+.verification-note {
+    font-size: 0.85rem;
+    color: var(--text-tertiary, #6b7280);
+    font-style: italic;
+}
+
+.verification-neutral {
+    color: var(--primary, #3B82F6);
+}
+
+.signature-text {
+    word-break: break-all;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* Melhorias para botões na barra de controle */
+.control-bar {
+    background-color: var(--bg-secondary, #1f2937);
+    border-bottom: 1px solid var(--border, #374151);
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.tool-btn {
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--border-radius, 0.5rem);
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    border: none;
+    cursor: pointer;
+    background-color: var(--bg-button, #374151);
+    color: var(--text-secondary, #d1d5db);
+}
+
+.tool-btn:hover {
+    background-color: var(--bg-button-hover, #4b5563);
+    color: var(--text-primary, #f9fafb);
+}
+
+.tool-btn.primary {
+    background-color: var(--primary, #3B82F6);
+    color: white;
+}
+
+.tool-btn.primary:hover {
+    background-color: var(--primary-hover, #2563eb);
+}
+
+.tool-btn.danger {
+    background-color: var(--danger, #ef4444);
+    color: white;
+}
+
+.tool-btn.danger:hover {
+    background-color: var(--danger-hover, #dc2626);
+}
+
+@media (min-width: 768px) {
+    .jwt-editor-wrapper {
+        height: 70vh;
+    }
+    
+    .jwt-input-container {
+        min-height: 150px;
+    }
+    
+    .jwt-content {
+        padding: 2rem;
+    }
+}
+

@@ -1,0 +1,150 @@
+/* static/css/encoding-tools.css */
+/* Estilos específicos para as ferramentas de codificação/decodificação */
+
+/* Container principal para as ferramentas de codificação */
+.editor-container {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    min-height: 500px;
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius);
+}
+
+/* Barra de controle com botões */
+.control-bar {
+    display: flex;
+    gap: 0.75rem;
+    padding: 1rem;
+    background-color: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+
+/* Wrapper para a área de edição e resultado */
+.editor-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Campo de entrada de texto */
+#input-text {
+    width: 100%;
+    height: 40%;
+    min-height: 200px;
+    padding: 1rem;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    resize: none;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+    background-color: var(--bg-input);
+    outline: none;
+    transition: height 0.3s ease;
+}
+
+/* Área de saída / resultado */
+#output-container {
+    flex: 1;
+    padding: 1rem;
+    background-color: var(--bg-secondary);
+    overflow: auto;
+}
+
+#output-container h3 {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+}
+
+.output-display {
+    font-family: var(--font-mono);
+    padding: 1rem;
+    background-color: var(--bg-tertiary);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    min-height: 100px;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* Mensagem de erro */
+.error-message {
+    display: none;
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: var(--danger);
+    color: white;
+    font-weight: 500;
+    border-radius: var(--border-radius);
+}
+
+/* Estilos dos botões */
+.tool-btn {
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--border-radius);
+    border: none;
+    background-color: var(--bg-button);
+    color: var(--text-secondary);
+    font-weight: 500;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.tool-btn:hover {
+    background-color: var(--bg-button-hover);
+    color: var(--text-primary);
+}
+
+.tool-btn.primary {
+    background-color: var(--primary);
+    color: var(--text-on-primary);
+}
+
+.tool-btn.primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.tool-btn.danger {
+    background-color: var(--danger);
+    color: var(--text-on-danger);
+}
+
+.tool-btn.danger:hover {
+    background-color: var(--danger-hover);
+}
+
+/* Layout responsivo */
+@media (min-width: 768px) {
+    .editor-wrapper {
+        flex-direction: row;
+    }
+    
+    #input-text {
+        height: 100%;
+        width: 50%;
+        border-bottom: none;
+        border-right: 1px solid var(--border);
+        min-height: unset;
+    }
+    
+    #output-container {
+        width: 50%;
+    }
+}
+
+@media (max-width: 767px) {
+    .control-bar {
+        justify-content: center;
+    }
+    
+    #output-container {
+        height: 60%;
+    }
+}

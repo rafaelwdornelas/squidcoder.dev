@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="stylesheet" href="/static/css/converters.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="csv-json-converter">
+                <div class="tool-header">
+                    <h1 class="tool-title">Conversor CSV/JSON</h1>
+                    <p class="tool-description">Converta dados entre formatos CSV e JSON facilmente</p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="editor-container">
+                        <div class="control-bar">
+                            <div class="control-group">
+                                <button id="csv-to-json-btn" class="tool-btn primary active">
+                                    <i class="fas fa-exchange-alt"></i> CSV para JSON
+                                </button>
+                                <button id="json-to-csv-btn" class="tool-btn secondary">
+                                    <i class="fas fa-exchange-alt fa-flip-horizontal"></i> JSON para CSV
+                                </button>
+                            </div>
+                            <div class="spacer"></div>
+                            <div class="control-group">
+                                <button id="convert-btn" class="tool-btn primary">
+                                    <i class="fas fa-sync-alt"></i> Converter
+                                </button>
+                                <button id="copy-btn" class="tool-btn">
+                                    <i class="fas fa-copy"></i> Copiar
+                                </button>
+                                <button id="clear-btn" class="tool-btn danger">
+                                    <i class="fas fa-trash-alt"></i> Limpar
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="csv-options" class="option-bar">
+                            <div class="option-group">
+                                <label for="delimiter-select">Delimitador:</label>
+                                <select id="delimiter-select" class="option-select">
+                                    <option value="," selected>Vírgula (,)</option>
+                                    <option value=";">Ponto e vírgula (;)</option>
+                                    <option value="\t">Tabulação (tab)</option>
+                                    <option value="|">Pipe (|)</option>
+                                </select>
+                            </div>
+                            <div class="option-group">
+                                <label for="header-checkbox" class="option-checkbox-label">
+                                    <input type="checkbox" id="header-checkbox" checked>
+                                    Primeira linha é cabeçalho
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="json-options" class="option-bar" style="display: none;">
+                            <div class="option-group">
+                                <label for="pretty-checkbox" class="option-checkbox-label">
+                                    <input type="checkbox" id="pretty-checkbox" checked>
+                                    JSON formatado (pretty)
+                                </label>
+                            </div>
+                            <div class="option-group">
+                                <label for="array-checkbox" class="option-checkbox-label">
+                                    <input type="checkbox" id="array-checkbox" checked>
+                                    Incluir colchetes de array
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="editor-wrapper">
+                            <div class="editor-pane">
+                                <div class="editor-label" id="input-label">CSV:</div>
+                                <textarea id="input-text" placeholder="Cole seus dados CSV aqui...
+Exemplo:
+nome,idade,profissão
+João,30,programador
+Maria,25,designer
+Carlos,35,gerente"></textarea>
+                            </div>
+                            <div class="editor-pane">
+                                <div class="editor-label" id="output-label">JSON:</div>
+                                <div id="output-text" class="output-display"></div>
+                            </div>
+                        </div>
+                        <div id="error-message" class="error-message"></div>
+                    </div>
+
+                    <div class="tool-help">
+                        <h3>Como usar:</h3>
+                        <div class="help-content">
+                            <p><strong>CSV para JSON:</strong> Cole seus dados CSV no campo de entrada e clique em
+                                "Converter" para obter o JSON equivalente.</p>
+                            <p><strong>JSON para CSV:</strong> Cole seus dados JSON no campo de entrada e clique em
+                                "Converter" para obter o CSV equivalente.</p>
+                            <p><strong>Opções de CSV:</strong> Selecione o delimitador correto e indique se a primeira
+                                linha é um cabeçalho.</p>
+                            <p><strong>Opções de JSON:</strong> Escolha entre JSON formatado ou minificado, e se deseja
+                                incluir colchetes de array.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"
+        integrity="sha512-dfX5uYVXzyU8+KHqj8bjo7UkOdg18PaOtpa48djpNbZHwExddghZ+ZmzWT06R5v6NSk3ZUfsH6FNEDepLx9hPQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/csv-json-converter.js"></script>
+</body>
+
+</html>

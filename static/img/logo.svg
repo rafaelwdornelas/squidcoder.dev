@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fundo circular -->
+  <circle cx="100" cy="100" r="90" fill="#1F2937" />
+  <circle cx="100" cy="100" r="85" fill="#111827" />
+  
+  <!-- Corpo do polvo - mais parecido com a primeira imagem -->
+  <ellipse cx="100" cy="90" rx="40" ry="45" fill="#3B82F6" />
+  
+  <!-- Tentáculos estilizados como na primeira imagem, curvados para fora -->
+  <path d="M70 100 C 55 125, 30 125, 15 110" stroke="#3B82F6" stroke-width="7" fill="none" stroke-linecap="round" />
+  <path d="M130 100 C 145 125, 170 125, 185 110" stroke="#3B82F6" stroke-width="7" fill="none" stroke-linecap="round" />
+  
+  <path d="M80 120 C 70 145, 50 155, 35 145" stroke="#3B82F6" stroke-width="7" fill="none" stroke-linecap="round" />
+  <path d="M120 120 C 130 145, 150 155, 165 145" stroke="#3B82F6" stroke-width="7" fill="none" stroke-linecap="round" />
+  
+  <path d="M90 130 C 85 155, 70 170, 55 165" stroke="#10B981" stroke-width="7" fill="none" stroke-linecap="round" />
+  <path d="M110 130 C 115 155, 130 170, 145 165" stroke="#10B981" stroke-width="7" fill="none" stroke-linecap="round" />
+  
+  <!-- Elementos de código/setas como na primeira imagem -->
+  <path d="M60 85 L 45 70 L 55 60" stroke="#F59E0B" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M140 85 L 155 70 L 145 60" stroke="#F59E0B" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Elementos de código centrais -->
+  <path d="M75 115 L 60 105 L 75 95" stroke="white" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M125 115 L 140 105 L 125 95" stroke="white" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  
+  <!-- Olhos -->
+  <circle cx="85" cy="80" r="12" fill="white" />
+  <circle cx="115" cy="80" r="12" fill="white" />
+  <circle cx="85" cy="80" r="6" fill="#111827" />
+  <circle cx="115" cy="80" r="6" fill="#111827" />
+  
+  <!-- Destaques nos olhos -->
+  <circle cx="82" cy="77" r="3" fill="white" />
+  <circle cx="112" cy="77" r="3" fill="white" />
+  
+  <!-- Elementos de programação no corpo do polvo -->
+  <path d="M90 60 L 80 60" stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round" />
+  <path d="M95 60 L 105 60" stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round" />
+  <path d="M110 60 L 120 60" stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round" />
+  
+  <path d="M85 65 L 95 65" stroke="#F59E0B" stroke-width="2" fill="none" stroke-linecap="round" />
+  <path d="M100 65 L 115 65" stroke="#F59E0B" stroke-width="2" fill="none" stroke-linecap="round" />
+  
+  <!-- Código texto -->
+  <text x="87" y="105" fill="white" font-family="monospace" font-weight="bold" font-size="10">{ ; }</text>
+</svg>

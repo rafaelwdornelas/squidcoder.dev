@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/encoding-tools.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="url-decoder">
+                <div class="tool-header">
+                    <h1 class="tool-title">Decodificador URL</h1>
+                    <p class="tool-description">Decodifique texto codificado em URL para formato legível</p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="editor-container">
+                        <div class="control-bar">
+                            <button id="decode-btn" class="tool-btn primary">Decodificar</button>
+                            <button id="clear-btn" class="tool-btn danger">Limpar</button>
+                            <button id="copy-btn" class="tool-btn">Copiar</button>
+                            <div class="spacer"></div>
+                            <button id="load-sample-btn" class="tool-btn">Carregar Exemplo</button>
+                        </div>
+
+                        <div class="editor-wrapper">
+                            <textarea id="input-text"
+                                placeholder="Cole seu texto codificado em URL aqui... (ex: Hello%20World)"></textarea>
+                            <div id="output-container">
+                                <h3>Resultado:</h3>
+                                <div id="output-text" class="output-display"></div>
+                            </div>
+                            <div id="error-message" class="error-message"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/url-decoder.js"></script>
+</body>
+
+</html>

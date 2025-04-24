@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="color-picker">
+                <div class="tool-header">
+                    <h1 class="tool-title">Seletor de Cores</h1>
+                    <p class="tool-description">Selecione e converta cores entre diferentes formatos</p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="color-picker-container">
+                        <div class="color-preview">
+                            <div id="color-display" class="color-display"></div>
+                            <div class="color-values">
+                                <div class="color-value">
+                                    <label for="hex-value">HEX</label>
+                                    <input type="text" id="hex-value" class="value-input" value="#3B82F6">
+                                </div>
+                                <div class="color-value">
+                                    <label for="rgb-value">RGB</label>
+                                    <input type="text" id="rgb-value" class="value-input" value="59, 130, 246">
+                                </div>
+                                <div class="color-value">
+                                    <label for="hsl-value">HSL</label>
+                                    <input type="text" id="hsl-value" class="value-input" value="217, 91%, 60%">
+                                </div>
+                            </div>
+                            <button id="copy-color-btn" class="tool-btn primary">Copiar Valor</button>
+                        </div>
+
+                        <div class="color-controls">
+                            <div class="control-group">
+                                <label for="hue-slider">Matiz</label>
+                                <input type="range" id="hue-slider" min="0" max="360" value="217">
+                            </div>
+                            <div class="control-group">
+                                <label for="saturation-slider">Saturação</label>
+                                <input type="range" id="saturation-slider" min="0" max="100" value="91">
+                            </div>
+                            <div class="control-group">
+                                <label for="lightness-slider">Luminosidade</label>
+                                <input type="range" id="lightness-slider" min="0" max="100" value="60">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="color-palettes">
+                        <h3>Paletas de Cores</h3>
+                        <div class="palette-container">
+                            <div class="palette">
+                                <h4>Monocromática</h4>
+                                <div id="monochromatic-palette" class="palette-colors"></div>
+                            </div>
+                            <div class="palette">
+                                <h4>Análoga</h4>
+                                <div id="analogous-palette" class="palette-colors"></div>
+                            </div>
+                            <div class="palette">
+                                <h4>Complementar</h4>
+                                <div id="complementary-palette" class="palette-colors"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/color-picker.js"></script>
+</body>
+
+</html>

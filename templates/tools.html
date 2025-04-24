@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos para a barra de busca */
+        .search-container {
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem 1rem 3rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border);
+            background-color: var(--bg-input, var(--bg-secondary));
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all var(--transition-speed);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: none;
+            font-size: 1rem;
+        }
+
+        .clear-search:hover {
+            color: var(--primary);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            background-color: var(--bg-card);
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            display: none;
+        }
+
+        /* Animação para ferramentas filtradas */
+        .tool-card {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .tool-card.hidden {
+            display: none;
+        }
+
+        /* Destaque do texto correspondente na busca */
+        .highlight-match {
+            background-color: rgba(59, 130, 246, 0.2);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <section class="tools-header">
+                <div class="container">
+                    <p class="page-description">Explore nossa coleção de ferramentas gratuitas para ajudar no seu fluxo
+                        de trabalho de desenvolvimento.</p>
+
+                    <!-- Adicionar barra de busca -->
+                    <div class="search-container">
+                        <div class="search-box">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="search-tools" class="search-input"
+                                placeholder="Buscar ferramentas...">
+                            <button id="clear-search" class="clear-search">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="tools-list">
+                <div class="container">
+                    <!-- Mensagem para quando não houver resultados -->
+                    <div id="no-results" class="no-results">
+                        <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p>Nenhuma ferramenta encontrada para sua busca.</p>
+                        <p>Tente outros termos ou explore todas as nossas ferramentas.</p>
+                    </div>
+
+                    <div class="tools-grid large" id="tools-grid">
+                        {{range .Tools}}
+                        <div class="tool-card" data-name="{{.Name}}" data-description="{{.Description}}"
+                            data-keywords="{{.Name}} {{.Description}}">
+                            <div class="tool-icon">
+                                <i class="fas fa-{{.Icon}}"></i>
+                            </div>
+                            <h2 class="tool-name">{{.Name}}</h2>
+                            <p class="tool-description">{{.Description}}</p>
+                            <a href="{{.Route}}" class="tool-link">Abrir Ferramenta <i
+                                    class="fas fa-chevron-right"></i></a>
+                        </div>
+                        {{end}}
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Carrega JavaScript comum -->
+    <script src="/static/js/common.js"></script>
+
+    <!-- Script para a funcionalidade de busca -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.getElementById('search-tools');
+            const clearButton = document.getElementById('clear-search');
+            const toolsGrid = document.getElementById('tools-grid');
+            const toolCards = document.querySelectorAll('.tool-card');
+            const noResults = document.getElementById('no-results');
+
+            // Função para filtrar as ferramentas em tempo real
+            function filterTools() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                let resultsFound = false;
+
+                // Mostrar o botão de limpar apenas se houver texto
+                clearButton.style.display = searchTerm ? 'block' : 'none';
+
+                toolCards.forEach(card => {
+                    const cardData = (card.dataset.keywords || '').toLowerCase();
+                    const cardName = card.querySelector('.tool-name');
+                    const cardDescription = card.querySelector('.tool-description');
+
+                    // Verificar se o termo de busca está presente nos dados do card
+                    if (searchTerm === '' || cardData.includes(searchTerm)) {
+                        card.classList.remove('hidden');
+                        resultsFound = true;
+
+                        // Restaurar o texto original (sem destaques)
+                        if (searchTerm === '') {
+                            cardName.innerHTML = card.dataset.name;
+                            cardDescription.innerHTML = card.dataset.description;
+                        } else {
+                            // Destacar o texto que corresponde à busca
+                            const nameHighlighted = highlightText(card.dataset.name, searchTerm);
+                            const descHighlighted = highlightText(card.dataset.description, searchTerm);
+
+                            cardName.innerHTML = nameHighlighted;
+                            cardDescription.innerHTML = descHighlighted;
+                        }
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+
+                // Mostrar mensagem de "nenhum resultado" se necessário
+                noResults.style.display = resultsFound ? 'none' : 'block';
+            }
+
+            // Função para destacar o texto correspondente
+            function highlightText(text, term) {
+                if (!term) return text;
+
+                const regex = new RegExp('(' + term + ')', 'gi');
+                return text.replace(regex, '<span class="highlight-match">$1</span>');
+            }
+
+            // Evento para a entrada de busca
+            searchInput.addEventListener('input', filterTools);
+
+            // Evento para o botão de limpar
+            clearButton.addEventListener('click', function () {
+                searchInput.value = '';
+                filterTools();
+                searchInput.focus();
+            });
+
+            // Inicialização
+            filterTools();
+        });
+    </script>
+</body>
+
+</html>
