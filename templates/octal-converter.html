@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="stylesheet" href="/static/css/text-converter.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="octal-converter">
+                <div class="tool-header">
+                    <h1 class="tool-title">Conversor de Texto para Código Octal</h1>
+                    <p class="tool-description">Converta texto para códigos octais e vice-versa</p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="converter-container">
+                        <div class="input-section">
+                            <div class="input-group">
+                                <label for="input-text">Digite ou cole o texto para converter:</label>
+                                <textarea id="input-text" class="text-area"
+                                    placeholder="Digite ou cole o texto aqui..."></textarea>
+                            </div>
+
+                            <div class="controls-section">
+                                <div class="options-group">
+                                    <div class="option-item">
+                                        <input type="radio" id="text-to-octal" name="conversion-direction" checked>
+                                        <label for="text-to-octal">Texto para Octal</label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="octal-to-text" name="conversion-direction">
+                                        <label for="octal-to-text">Octal para Texto</label>
+                                    </div>
+                                </div>
+
+                                <div class="button-group">
+                                    <button id="convert-btn" class="action-btn primary">
+                                        <i class="fas fa-sync-alt"></i> Converter
+                                    </button>
+                                    <button id="clear-btn" class="action-btn secondary">
+                                        <i class="fas fa-eraser"></i> Limpar
+                                    </button>
+                                    <button id="sample-btn" class="action-btn secondary">
+                                        <i class="fas fa-vial"></i> Exemplo
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="format-selector">
+                                <div class="format-option active" data-format="standard">Padrão (000)</div>
+                                <div class="format-option" data-format="prefixed">Prefixo (\\000)</div>
+                                <div class="format-option" data-format="spaced">Espaçado (000 000)</div>
+                            </div>
+
+                            <div class="options-group">
+                                <div class="option-item">
+                                    <input type="checkbox" id="use-leading-zeros" checked>
+                                    <label for="use-leading-zeros">Usar zeros à esquerda (3 dígitos)</label>
+                                </div>
+                                <div class="option-item">
+                                    <input type="checkbox" id="grid-view">
+                                    <label for="grid-view">Visualização em grade</label>
+                                </div>
+                                <div class="option-item">
+                                    <input type="checkbox" id="include-character">
+                                    <label for="include-character">Incluir caractere original</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="output-section">
+                            <div class="output-header">
+                                <h3>Resultado da Conversão</h3>
+                                <div class="output-actions">
+                                    <button id="copy-btn" class="action-btn secondary">
+                                        <i class="fas fa-copy"></i> Copiar
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="output-content" class="output-content"></div>
+                        </div>
+
+                        <div class="info-section">
+                            <h3>Sobre o Código Octal</h3>
+                            <p>
+                                O código octal é um sistema de numeração de base 8, que usa os dígitos de 0 a 7. Na
+                                computação,
+                                o octal é frequentemente usado como uma forma mais compacta de representar valores
+                                binários, já que
+                                cada dígito octal corresponde exatamente a três dígitos binários.
+                            </p>
+                            <p>
+                                Na programação, especialmente em linguagens como C, Python e Bash, os números octais são
+                                muitas vezes
+                                prefixados com "0" ou "0o" (por exemplo, 0755 ou 0o755). No contexto de texto, cada
+                                caractere pode
+                                ser representado por seu valor octal correspondente, geralmente usando três dígitos.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/octal-converter.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="stylesheet" href="/static/css/text-converter.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="unicode-converter">
+                <div class="tool-header">
+                    <h1 class="tool-title">Conversor de Texto para Unicode</h1>
+                    <p class="tool-description">Converta texto para códigos Unicode e vice-versa</p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="converter-container">
+                        <div class="input-section">
+                            <div class="input-group">
+                                <label for="input-text">Digite ou cole o texto para converter:</label>
+                                <textarea id="input-text" class="text-area"
+                                    placeholder="Digite ou cole o texto aqui..."></textarea>
+                            </div>
+
+                            <div class="controls-section">
+                                <div class="options-group">
+                                    <div class="option-item">
+                                        <input type="radio" id="text-to-unicode" name="conversion-direction" checked>
+                                        <label for="text-to-unicode">Texto para Unicode</label>
+                                    </div>
+                                    <div class="option-item">
+                                        <input type="radio" id="unicode-to-text" name="conversion-direction">
+                                        <label for="unicode-to-text">Unicode para Texto</label>
+                                    </div>
+                                </div>
+
+                                <div class="button-group">
+                                    <button id="convert-btn" class="action-btn primary">
+                                        <i class="fas fa-sync-alt"></i> Converter
+                                    </button>
+                                    <button id="clear-btn" class="action-btn secondary">
+                                        <i class="fas fa-eraser"></i> Limpar
+                                    </button>
+                                    <button id="sample-btn" class="action-btn secondary">
+                                        <i class="fas fa-vial"></i> Exemplo
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="format-selector">
+                                <div class="format-option active" data-format="u-notation">Notação U+</div>
+                                <div class="format-option" data-format="html-entity">Entidade HTML</div>
+                                <div class="format-option" data-format="js-escape">Escape JS</div>
+                                <div class="format-option" data-format="css-escape">Escape CSS</div>
+                            </div>
+
+                            <div class="options-group">
+                                <div class="option-item">
+                                    <input type="checkbox" id="include-surrogate-pairs" checked>
+                                    <label for="include-surrogate-pairs">Incluir pares substitutos</label>
+                                </div>
+                                <div class="option-item">
+                                    <input type="checkbox" id="grid-view">
+                                    <label for="grid-view">Visualização em grade</label>
+                                </div>
+                                <div class="option-item">
+                                    <input type="checkbox" id="include-character" checked>
+                                    <label for="include-character">Incluir caractere original</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="output-section">
+                            <div class="output-header">
+                                <h3>Resultado da Conversão</h3>
+                                <div class="output-actions">
+                                    <button id="copy-btn" class="action-btn secondary">
+                                        <i class="fas fa-copy"></i> Copiar
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="output-content" class="output-content"></div>
+                        </div>
+
+                        <div class="info-section">
+                            <h3>Sobre o Unicode</h3>
+                            <p>
+                                Unicode é um padrão de codificação de caracteres que atribui um código único para cada
+                                caractere,
+                                independentemente da plataforma, programa ou idioma. O objetivo do Unicode é unificar
+                                todos os conjuntos
+                                de caracteres em uma codificação universal.
+                            </p>
+                            <p>
+                                Ao contrário do ASCII que usa apenas 7 ou 8 bits, o Unicode pode representar caracteres
+                                usando pontos
+                                de código que variam de U+0000 a U+10FFFF, permitindo codificar mais de um milhão de
+                                caracteres,
+                                incluindo símbolos, emojis e caracteres de praticamente todos os idiomas escritos do
+                                mundo.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/unicode-converter.js"></script>
+</body>
+
+</html>

@@ -350,6 +350,27 @@ func main() {
 			Icon:        "shield-alt",
 			Route:       "/tools/password-strength-analyzer",
 		},
+		{
+			ID:          "ascii-converter",
+			Name:        "Conversor de Texto para Código ASCII",
+			Description: "Converta texto para códigos ASCII e vice-versa",
+			Icon:        "font",
+			Route:       "/tools/ascii-converter",
+		},
+		{
+			ID:          "unicode-converter",
+			Name:        "Conversor de Texto para Unicode",
+			Description: "Converta texto para códigos Unicode e vice-versa",
+			Icon:        "globe",
+			Route:       "/tools/unicode-converter",
+		},
+		{
+			ID:          "octal-converter",
+			Name:        "Conversor de Texto para Código Octal",
+			Description: "Converta texto para códigos octais e vice-versa",
+			Icon:        "exchange-alt",
+			Route:       "/tools/octal-converter",
+		},
 	}
 
 	// Configuração para SEO (sitemap.xml e robots.txt)
@@ -712,6 +733,38 @@ func main() {
 		}
 
 		templateRenderer.RenderTemplate(w, "templates/password-strength-analyzer.html", data)
+	})
+
+	http.HandleFunc("/tools/ascii-converter", func(w http.ResponseWriter, r *http.Request) {
+		data := PageData{
+			Title:       "Conversor de Texto para Código ASCII | SquidCoder.dev",
+			Description: "Converta texto para códigos ASCII e vice-versa",
+			Tools:       tools,
+			Theme:       "dark",
+		}
+
+		templateRenderer.RenderTemplate(w, "templates/ascii-converter.html", data)
+	})
+
+	http.HandleFunc("/tools/unicode-converter", func(w http.ResponseWriter, r *http.Request) {
+		data := PageData{
+			Title:       "Conversor de Texto para Unicode | SquidCoder.dev",
+			Description: "Converta texto para códigos Unicode e vice-versa",
+			Tools:       tools,
+			Theme:       "dark",
+		}
+
+		templateRenderer.RenderTemplate(w, "templates/unicode-converter.html", data)
+	})
+
+	http.HandleFunc("/tools/octal-converter", func(w http.ResponseWriter, r *http.Request) {
+		data := PageData{
+			Title:       "Conversor de Texto para Código Octal | SquidCoder.dev",
+			Description: "Converta texto para códigos octais e vice-versa",
+			Tools:       tools,
+			Theme:       "dark",
+		}
+		templateRenderer.RenderTemplate(w, "templates/octal-converter.html", data)
 	})
 
 	// Rota para a configuração do tema

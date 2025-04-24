@@ -1,0 +1,264 @@
+/* static/css/text-converter.css */
+/* Estilos compartilhados para conversores de texto */
+
+.converter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.input-section {
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.text-area {
+    width: 100%;
+    min-height: 150px;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border);
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: vertical;
+}
+
+.controls-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.options-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.option-item input[type="checkbox"],
+.option-item input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.option-item label {
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.action-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.action-btn.primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.action-btn.primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.action-btn.secondary {
+    background-color: var(--bg-button);
+    color: var(--text-secondary);
+}
+
+.action-btn.secondary:hover {
+    background-color: var(--bg-button-hover);
+    color: var(--text-primary);
+}
+
+.action-btn.danger {
+    background-color: var(--danger);
+    color: white;
+}
+
+.action-btn.danger:hover {
+    background-color: var(--danger-hover);
+}
+
+.output-section {
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.output-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.output-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+}
+
+.output-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.output-content {
+    background-color: var(--bg-input);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    min-height: 150px;
+    max-height: 400px;
+    overflow-y: auto;
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    white-space: pre-wrap;
+    word-break: break-all;
+    line-height: 1.6;
+}
+
+.output-content.grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.5rem;
+    word-break: keep-all;
+}
+
+.char-item {
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem;
+    background-color: var(--bg-tertiary);
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.char-original {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.char-code {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.format-selector {
+    display: flex;
+    padding: 0.5rem;
+    background-color: var(--bg-tertiary);
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+}
+
+.format-option {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: calc(var(--border-radius) - 2px);
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+
+.format-option:hover {
+    color: var(--text-primary);
+}
+
+.format-option.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+.info-section {
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-top: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-section h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+}
+
+.info-section p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.info-section p:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .controls-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .options-group,
+    .button-group {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .action-btn {
+        flex: 1;
+    }
+    
+    .output-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .output-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
