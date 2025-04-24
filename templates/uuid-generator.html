@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="stylesheet" href="/static/css/uuid-generator.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="uuid-generator">
+                <div class="tool-header">
+                    <h1 class="tool-title">Gerador de UUID</h1>
+                    <p class="tool-description">Gere identificadores únicos universais (UUIDs) em diferentes versões</p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="uuid-container">
+                        <div class="uuid-controls">
+                            <div class="version-selector">
+                                <label for="uuid-version">Versão UUID:</label>
+                                <select id="uuid-version" class="version-select">
+                                    <option value="1">UUID v1 (Baseado em tempo)</option>
+                                    <option value="4" selected>UUID v4 (Aleatório)</option>
+                                    <option value="0">UUID v0 (Nulo)</option>
+                                    <option value="Nil">UUID Nil (Todos zeros)</option>
+                                    <option value="namespaceURL">UUID Namespace URL (Predefinido)</option>
+                                    <option value="namespaceDNS">UUID Namespace DNS (Predefinido)</option>
+                                    <option value="namespaceOID">UUID Namespace OID (Predefinido)</option>
+                                    <option value="namespaceX500">UUID Namespace X500 (Predefinido)</option>
+                                    <option value="3">UUID v3 (MD5 + Namespace)</option>
+                                    <option value="5">UUID v5 (SHA-1 + Namespace)</option>
+                                    <option value="6">UUID v6 (Reordenado baseado em tempo)</option>
+                                    <option value="7">UUID v7 (Baseado em Unix Epoch)</option>
+                                    <option value="8">UUID v8 (Personalizado)</option>
+                                </select>
+                            </div>
+
+                            <div id="namespace-container" class="namespace-container hidden">
+                                <label for="namespace-select">Namespace:</label>
+                                <select id="namespace-select" class="namespace-select">
+                                    <option value="namespaceURL">URL</option>
+                                    <option value="namespaceDNS">DNS</option>
+                                    <option value="namespaceOID">OID</option>
+                                    <option value="namespaceX500">X500</option>
+                                    <option value="custom">Personalizado</option>
+                                </select>
+                                <input type="text" id="custom-namespace" class="custom-input hidden"
+                                    placeholder="Insira o namespace personalizado (UUID)">
+                            </div>
+
+                            <div id="name-container" class="name-container hidden">
+                                <label for="name-input">Nome:</label>
+                                <input type="text" id="name-input" class="name-input" placeholder="ex: exemplo.com">
+                            </div>
+
+                            <div class="button-group">
+                                <button id="generate-btn" class="tool-btn primary">
+                                    <i class="fas fa-sync-alt"></i> Gerar UUID
+                                </button>
+                                <span class="quantity-label">Quantidade:</span>
+                                <select id="quantity-select" class="quantity-select">
+                                    <option value="1">1</option>
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                            </div>
+
+                            <div class="format-options">
+                                <div class="option-group">
+                                    <div class="option-label">
+                                        <input type="checkbox" id="uppercase-option" class="format-checkbox">
+                                        <label for="uppercase-option">Maiúsculas</label>
+                                    </div>
+                                    <div class="option-label">
+                                        <input type="checkbox" id="braces-option" class="format-checkbox">
+                                        <label for="braces-option">Chaves { }</label>
+                                    </div>
+                                    <div class="option-label">
+                                        <input type="checkbox" id="hyphens-option" class="format-checkbox" checked>
+                                        <label for="hyphens-option">Hifens -</label>
+                                    </div>
+                                </div>
+                                <div class="copy-options">
+                                    <div class="option-group">
+                                        <div class="option-label">
+                                            <input type="radio" name="copy-format" id="plain-format" value="plain"
+                                                checked>
+                                            <label for="plain-format">Texto simples</label>
+                                        </div>
+                                        <div class="option-label">
+                                            <input type="radio" name="copy-format" id="array-format" value="array">
+                                            <label for="array-format">Array JS</label>
+                                        </div>
+                                        <div class="option-label">
+                                            <input type="radio" name="copy-format" id="json-format" value="json">
+                                            <label for="json-format">JSON</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="uuid-results">
+                            <div class="results-header">
+                                <h3>UUIDs Gerados</h3>
+                                <div class="results-actions">
+                                    <button id="copy-all-btn" class="action-btn">
+                                        <i class="fas fa-copy"></i> Copiar Todos
+                                    </button>
+                                    <button id="clear-btn" class="action-btn danger">
+                                        <i class="fas fa-trash"></i> Limpar
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="uuid-list" class="uuid-list">
+                                <p class="empty-message">Clique em "Gerar UUID" para criar novos UUIDs.</p>
+                            </div>
+                        </div>
+
+                        <div class="uuid-info">
+                            <h3>O que são UUIDs?</h3>
+                            <p>
+                                UUID (Universally Unique Identifier) ou GUID (Globally Unique Identifier) é um
+                                identificador
+                                padrão de 128 bits usado para identificar informações em sistemas computacionais.
+                            </p>
+
+                            <div class="info-grid">
+                                <div class="info-card">
+                                    <h4>UUID v1</h4>
+                                    <p>Baseado em timestamp e endereço MAC. Garantido único no tempo e espaço.</p>
+                                </div>
+                                <div class="info-card">
+                                    <h4>UUID v3</h4>
+                                    <p>Baseado em namespace e nome, usando hash MD5.</p>
+                                </div>
+                                <div class="info-card">
+                                    <h4>UUID v4</h4>
+                                    <p>Gerado aleatoriamente. Mais amplamente utilizado.</p>
+                                </div>
+                                <div class="info-card">
+                                    <h4>UUID v5</h4>
+                                    <p>Baseado em namespace e nome, usando hash SHA-1 (mais seguro que v3).</p>
+                                </div>
+                                <div class="info-card">
+                                    <h4>UUID v6</h4>
+                                    <p>Versão reordenada do v1, para melhor ordenação e indexação.</p>
+                                </div>
+                                <div class="info-card">
+                                    <h4>UUID v7</h4>
+                                    <p>Baseado em Unix Epoch, oferece ordem cronológica e unicidade.</p>
+                                </div>
+                                <div class="info-card">
+                                    <h4>UUID v8</h4>
+                                    <p>Formato personalizado, para casos de uso específicos.</p>
+                                </div>
+                                <div class="info-card">
+                                    <h4>UUID Nil e Namespace</h4>
+                                    <p>UUID Nil (todos zeros) e namespaces predefinidos conforme RFC 4122.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/uuid-generator.js"></script>
+</body>
+
+</html>

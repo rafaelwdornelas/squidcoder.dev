@@ -329,6 +329,27 @@ func main() {
 			Icon:        "id-card",
 			Route:       "/tools/cpf-cnpj-validator",
 		},
+		{
+			ID:          "uuid-generator",
+			Name:        "Gerador de UUID",
+			Description: "Gere identificadores únicos universais (UUIDs) em diferentes versões",
+			Icon:        "fingerprint",
+			Route:       "/tools/uuid-generator",
+		},
+		{
+			ID:          "password-generator",
+			Name:        "Gerador de Senhas Seguras",
+			Description: "Crie senhas fortes e seguras para suas contas online",
+			Icon:        "key",
+			Route:       "/tools/password-generator",
+		},
+		{
+			ID:          "password-strength-analyzer",
+			Name:        "Analisador de Força de Senhas",
+			Description: "Verifique a força e segurança de suas senhas",
+			Icon:        "shield-alt",
+			Route:       "/tools/password-strength-analyzer",
+		},
 	}
 
 	// Configuração para SEO (sitemap.xml e robots.txt)
@@ -658,6 +679,39 @@ func main() {
 		}
 
 		templateRenderer.RenderTemplate(w, "templates/cpf-cnpj-validator.html", data)
+	})
+
+	http.HandleFunc("/tools/uuid-generator", func(w http.ResponseWriter, r *http.Request) {
+		data := PageData{
+			Title:       "Gerador de UUID | SquidCoder.dev",
+			Description: "Gere identificadores únicos universais (UUIDs) em diferentes versões",
+			Tools:       tools,
+			Theme:       "dark",
+		}
+
+		templateRenderer.RenderTemplate(w, "templates/uuid-generator.html", data)
+	})
+
+	http.HandleFunc("/tools/password-generator", func(w http.ResponseWriter, r *http.Request) {
+		data := PageData{
+			Title:       "Gerador de Senhas Seguras | SquidCoder.dev",
+			Description: "Crie senhas fortes e seguras para suas contas online",
+			Tools:       tools,
+			Theme:       "dark",
+		}
+
+		templateRenderer.RenderTemplate(w, "templates/password-generator.html", data)
+	})
+
+	http.HandleFunc("/tools/password-strength-analyzer", func(w http.ResponseWriter, r *http.Request) {
+		data := PageData{
+			Title:       "Analisador de Força de Senhas | SquidCoder.dev",
+			Description: "Verifique a força e segurança de suas senhas",
+			Tools:       tools,
+			Theme:       "dark",
+		}
+
+		templateRenderer.RenderTemplate(w, "templates/password-strength-analyzer.html", data)
 	})
 
 	// Rota para a configuração do tema
