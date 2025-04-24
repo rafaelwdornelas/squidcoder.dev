@@ -308,6 +308,27 @@ func main() {
 			Icon:        "exchange-alt",
 			Route:       "/tools/csv-json-converter",
 		},
+		{
+			ID:          "unit-converter",
+			Name:        "Conversor de Unidades",
+			Description: "Converta entre diferentes unidades de temperatura, peso, volume e distância",
+			Icon:        "exchange-alt",
+			Route:       "/tools/unit-converter",
+		},
+		{
+			ID:          "date-diff-calculator",
+			Name:        "Calculadora de Diferença entre Datas",
+			Description: "Calcule a diferença em dias, semanas, meses e anos entre duas datas",
+			Icon:        "calendar-alt",
+			Route:       "/tools/date-diff-calculator",
+		},
+		{
+			ID:          "cpf-cnpj-validator",
+			Name:        "Criador e Validador de CPF/CNPJ",
+			Description: "Crie CPFs e CNPJs válidos ou verifique a validade de um número existente",
+			Icon:        "id-card",
+			Route:       "/tools/cpf-cnpj-validator",
+		},
 	}
 
 	// Configuração para SEO (sitemap.xml e robots.txt)
@@ -604,6 +625,39 @@ func main() {
 		}
 
 		templateRenderer.RenderTemplate(w, "templates/csv-json-converter.html", data)
+	})
+
+	http.HandleFunc("/tools/unit-converter", func(w http.ResponseWriter, r *http.Request) {
+		data := PageData{
+			Title:       "Conversor de Unidades | SquidCoder.dev",
+			Description: "Converta entre diferentes unidades de temperatura, peso, volume e distância",
+			Tools:       tools,
+			Theme:       "dark",
+		}
+
+		templateRenderer.RenderTemplate(w, "templates/unit-converter.html", data)
+	})
+
+	http.HandleFunc("/tools/date-diff-calculator", func(w http.ResponseWriter, r *http.Request) {
+		data := PageData{
+			Title:       "Calculadora de Diferença entre Datas | SquidCoder.dev",
+			Description: "Calcule a diferença em dias, semanas, meses e anos entre duas datas",
+			Tools:       tools,
+			Theme:       "dark",
+		}
+
+		templateRenderer.RenderTemplate(w, "templates/date-diff-calculator.html", data)
+	})
+
+	http.HandleFunc("/tools/cpf-cnpj-validator", func(w http.ResponseWriter, r *http.Request) {
+		data := PageData{
+			Title:       "Criador e Validador de CPF/CNPJ | SquidCoder.dev",
+			Description: "Crie CPFs e CNPJs válidos ou verifique a validade de um número existente",
+			Tools:       tools,
+			Theme:       "dark",
+		}
+
+		templateRenderer.RenderTemplate(w, "templates/cpf-cnpj-validator.html", data)
 	})
 
 	// Rota para a configuração do tema

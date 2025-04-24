@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="stylesheet" href="/static/css/date-calculator.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="date-calculator">
+                <div class="tool-header">
+                    <h1 class="tool-title">Calculadora de Diferença entre Datas</h1>
+                    <p class="tool-description">Calcule a diferença em dias, semanas, meses e anos entre duas datas</p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="calculator-container">
+                        <div class="calculator-tabs">
+                            <button class="calculator-tab active" data-mode="diff">
+                                <i class="fas fa-calendar-day"></i> Diferença entre Datas
+                            </button>
+                            <button class="calculator-tab" data-mode="add">
+                                <i class="fas fa-calendar-plus"></i> Adicionar Período
+                            </button>
+                            <button class="calculator-tab" data-mode="subtract">
+                                <i class="fas fa-calendar-minus"></i> Subtrair Período
+                            </button>
+                        </div>
+
+                        <div class="calculator-content" id="diff-mode">
+                            <div class="date-inputs">
+                                <div class="date-group">
+                                    <label for="start-date">Data Inicial</label>
+                                    <input type="date" id="start-date" class="date-input">
+                                </div>
+                                <div class="date-group">
+                                    <label for="end-date">Data Final</label>
+                                    <input type="date" id="end-date" class="date-input">
+                                </div>
+                            </div>
+
+                            <div class="calculation-options">
+                                <div class="option-label">
+                                    <input type="checkbox" id="workdays-only" class="option-checkbox">
+                                    <label for="workdays-only">Calcular apenas dias úteis (seg-sex)</label>
+                                </div>
+                                <div class="option-label">
+                                    <input type="checkbox" id="include-end-date" class="option-checkbox" checked>
+                                    <label for="include-end-date">Incluir data final</label>
+                                </div>
+                                <div class="option-label">
+                                    <input type="checkbox" id="exclude-holidays" class="option-checkbox">
+                                    <label for="exclude-holidays">Excluir feriados nacionais brasileiros</label>
+                                </div>
+                            </div>
+
+                            <div class="button-group">
+                                <button id="calculate-btn" class="tool-btn primary">
+                                    <i class="fas fa-calculator"></i> Calcular
+                                </button>
+                                <button id="swap-dates-btn" class="tool-btn">
+                                    <i class="fas fa-exchange-alt"></i> Trocar Datas
+                                </button>
+                                <button id="today-btn" class="tool-btn">
+                                    <i class="fas fa-calendar-day"></i> Hoje
+                                </button>
+                            </div>
+
+                            <div class="result-container">
+                                <div class="result-card">
+                                    <div class="result-icon">
+                                        <i class="fas fa-calendar"></i>
+                                    </div>
+                                    <div class="result-value" id="days-result">0</div>
+                                    <div class="result-label">Dias</div>
+                                </div>
+                                <div class="result-card">
+                                    <div class="result-icon">
+                                        <i class="fas fa-calendar-week"></i>
+                                    </div>
+                                    <div class="result-value" id="weeks-result">0</div>
+                                    <div class="result-label">Semanas</div>
+                                </div>
+                                <div class="result-card">
+                                    <div class="result-icon">
+                                        <i class="fas fa-calendar-alt"></i>
+                                    </div>
+                                    <div class="result-value" id="months-result">0</div>
+                                    <div class="result-label">Meses</div>
+                                </div>
+                                <div class="result-card">
+                                    <div class="result-icon">
+                                        <i class="fas fa-calendar-check"></i>
+                                    </div>
+                                    <div class="result-value" id="years-result">0</div>
+                                    <div class="result-label">Anos</div>
+                                </div>
+                            </div>
+
+                            <div class="detail-result" id="detail-result">
+                                <p>Selecione duas datas e clique em calcular para ver os resultados detalhados.</p>
+                            </div>
+                        </div>
+
+                        <div class="calculator-content hidden" id="add-mode">
+                            <div class="date-inputs">
+                                <div class="date-group">
+                                    <label for="base-date">Data Base</label>
+                                    <input type="date" id="base-date" class="date-input">
+                                </div>
+                            </div>
+
+                            <div class="period-inputs">
+                                <div class="period-group">
+                                    <label for="add-years">Anos</label>
+                                    <input type="number" id="add-years" class="period-input" value="0" min="0">
+                                </div>
+                                <div class="period-group">
+                                    <label for="add-months">Meses</label>
+                                    <input type="number" id="add-months" class="period-input" value="0" min="0">
+                                </div>
+                                <div class="period-group">
+                                    <label for="add-days">Dias</label>
+                                    <input type="number" id="add-days" class="period-input" value="0" min="0">
+                                </div>
+                            </div>
+
+                            <div class="calculation-options">
+                                <div class="option-label">
+                                    <input type="checkbox" id="add-workdays-only" class="option-checkbox">
+                                    <label for="add-workdays-only">Adicionar apenas dias úteis</label>
+                                </div>
+                            </div>
+
+                            <div class="button-group">
+                                <button id="add-calculate-btn" class="tool-btn primary">
+                                    <i class="fas fa-plus-circle"></i> Calcular Nova Data
+                                </button>
+                                <button id="add-today-btn" class="tool-btn">
+                                    <i class="fas fa-calendar-day"></i> Hoje
+                                </button>
+                            </div>
+
+                            <div class="add-result-container">
+                                <div class="result-card full-width">
+                                    <div class="result-icon">
+                                        <i class="fas fa-calendar-plus"></i>
+                                    </div>
+                                    <div class="result-date" id="add-result-date">Selecione uma data e um período para
+                                        adicionar</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="calculator-content hidden" id="subtract-mode">
+                            <div class="date-inputs">
+                                <div class="date-group">
+                                    <label for="sub-base-date">Data Base</label>
+                                    <input type="date" id="sub-base-date" class="date-input">
+                                </div>
+                            </div>
+
+                            <div class="period-inputs">
+                                <div class="period-group">
+                                    <label for="sub-years">Anos</label>
+                                    <input type="number" id="sub-years" class="period-input" value="0" min="0">
+                                </div>
+                                <div class="period-group">
+                                    <label for="sub-months">Meses</label>
+                                    <input type="number" id="sub-months" class="period-input" value="0" min="0">
+                                </div>
+                                <div class="period-group">
+                                    <label for="sub-days">Dias</label>
+                                    <input type="number" id="sub-days" class="period-input" value="0" min="0">
+                                </div>
+                            </div>
+
+                            <div class="calculation-options">
+                                <div class="option-label">
+                                    <input type="checkbox" id="sub-workdays-only" class="option-checkbox">
+                                    <label for="sub-workdays-only">Subtrair apenas dias úteis</label>
+                                </div>
+                            </div>
+
+                            <div class="button-group">
+                                <button id="sub-calculate-btn" class="tool-btn primary">
+                                    <i class="fas fa-minus-circle"></i> Calcular Nova Data
+                                </button>
+                                <button id="sub-today-btn" class="tool-btn">
+                                    <i class="fas fa-calendar-day"></i> Hoje
+                                </button>
+                            </div>
+
+                            <div class="add-result-container">
+                                <div class="result-card full-width">
+                                    <div class="result-icon">
+                                        <i class="fas fa-calendar-minus"></i>
+                                    </div>
+                                    <div class="result-date" id="sub-result-date">Selecione uma data e um período para
+                                        subtrair</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/date-calculator.js"></script>
+</body>
+
+</html>

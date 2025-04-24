@@ -1,0 +1,188 @@
+/* static/css/unit-converter.css */
+/* Estilos específicos para a ferramenta de conversão de unidades */
+
+.converter-container {
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Abas de categoria */
+.converter-tabs {
+    display: flex;
+    overflow-x: auto;
+    background-color: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border);
+}
+
+.converter-tab {
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.converter-tab:hover {
+    color: var(--primary);
+    background-color: var(--bg-hover);
+}
+
+.converter-tab.active {
+    color: var(--primary);
+    background-color: var(--bg-secondary);
+}
+
+.converter-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--primary);
+}
+
+.converter-tab i {
+    margin-right: 0.5rem;
+}
+
+/* Área de conteúdo */
+.converter-content {
+    padding: 2rem;
+    background-color: var(--bg-secondary);
+}
+
+/* Área de input */
+.converter-input {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.input-group {
+    flex: 1;
+    display: flex;
+    gap: 0.75rem;
+}
+
+.value-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border);
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-family: var(--font-mono);
+    text-align: right;
+}
+
+.unit-select {
+    width: 40%;
+    min-width: 120px;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border);
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.swap-btn-container {
+    display: flex;
+    align-items: center;
+}
+
+.swap-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.swap-btn:hover {
+    background-color: var(--primary-hover);
+    transform: rotate(180deg);
+}
+
+/* Fórmula */
+.formula-display {
+    padding: 1rem;
+    background-color: var(--bg-tertiary);
+    border-radius: var(--border-radius);
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+}
+
+/* Tabela de referência */
+.conversion-table {
+    background-color: var(--bg-secondary);
+    padding: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.conversion-table h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.conversion-table h3 i {
+    margin-right: 0.5rem;
+    color: var(--primary);
+}
+
+#reference-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+#reference-table th,
+#reference-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+#reference-table th {
+    font-weight: 600;
+    color: var(--text-primary);
+    background-color: var(--bg-tertiary);
+}
+
+#reference-table tbody tr:hover {
+    background-color: var(--bg-hover);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .converter-input {
+        flex-direction: column;
+    }
+    
+    .value-input {
+        font-size: 1rem;
+    }
+    
+    .swap-btn-container {
+        transform: rotate(90deg);
+        margin: 0.5rem 0;
+    }
+}

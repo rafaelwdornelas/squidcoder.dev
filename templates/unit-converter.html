@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="stylesheet" href="/static/css/unit-converter.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="unit-converter">
+                <div class="tool-header">
+                    <h1 class="tool-title">Conversor de Unidades</h1>
+                    <p class="tool-description">Converta entre diferentes unidades de temperatura, peso, volume e
+                        distância</p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="converter-container">
+                        <div class="converter-tabs">
+                            <button class="converter-tab active" data-category="temperature">
+                                <i class="fas fa-thermometer-half"></i> Temperatura
+                            </button>
+                            <button class="converter-tab" data-category="weight">
+                                <i class="fas fa-weight-hanging"></i> Peso
+                            </button>
+                            <button class="converter-tab" data-category="volume">
+                                <i class="fas fa-flask"></i> Volume
+                            </button>
+                            <button class="converter-tab" data-category="length">
+                                <i class="fas fa-ruler"></i> Distância
+                            </button>
+                        </div>
+
+                        <div class="converter-content">
+                            <div class="converter-input">
+                                <div class="input-group">
+                                    <input type="number" id="value-input" class="value-input" value="1" step="any">
+                                    <select id="from-unit" class="unit-select">
+                                        <!-- Opções de unidades serão inseridas dinamicamente -->
+                                    </select>
+                                </div>
+                                <div class="swap-btn-container">
+                                    <button id="swap-units-btn" class="swap-btn">
+                                        <i class="fas fa-exchange-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="input-group">
+                                    <input type="number" id="result-input" class="value-input" readonly>
+                                    <select id="to-unit" class="unit-select">
+                                        <!-- Opções de unidades serão inseridas dinamicamente -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="formula-display">
+                                <span id="formula-text">Fórmula: 1 °C = 33.8 °F</span>
+                            </div>
+                        </div>
+
+                        <div class="conversion-table">
+                            <h3><i class="fas fa-table"></i> Tabela de Referência</h3>
+                            <table id="reference-table">
+                                <thead>
+                                    <tr>
+                                        <th>Valor</th>
+                                        <th>Resultado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Conteúdo da tabela será inserido dinamicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/unit-converter.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="stylesheet" href="/static/css/cpf-cnpj.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="cpf-cnpj-validator">
+                <div class="tool-header">
+                    <h1 class="tool-title">Criador e Validador de CPF/CNPJ</h1>
+                    <p class="tool-description">Crie CPFs e CNPJs válidos ou verifique a validade de um número existente
+                    </p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="validator-container">
+                        <div class="validator-tabs">
+                            <button class="validator-tab active" data-mode="validate">
+                                <i class="fas fa-check-circle"></i> Validar
+                            </button>
+                            <button class="validator-tab" data-mode="generate">
+                                <i class="fas fa-magic"></i> Gerar
+                            </button>
+                            <button class="validator-tab" data-mode="info">
+                                <i class="fas fa-info-circle"></i> Informações
+                            </button>
+                        </div>
+
+                        <!-- Tab de Validação -->
+                        <div class="validator-content" id="validate-mode">
+                            <div class="document-type-selector">
+                                <div class="option-label">
+                                    <input type="radio" name="document-type" id="cpf-option" value="cpf" checked>
+                                    <label for="cpf-option">CPF</label>
+                                </div>
+                                <div class="option-label">
+                                    <input type="radio" name="document-type" id="cnpj-option" value="cnpj">
+                                    <label for="cnpj-option">CNPJ</label>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="document-input">Digite o número para validar:</label>
+                                <input type="text" id="document-input" class="document-input"
+                                    placeholder="Ex: 123.456.789-09 ou 12345678909">
+                            </div>
+
+                            <div class="button-group">
+                                <button id="validate-btn" class="tool-btn primary">
+                                    <i class="fas fa-check"></i> Validar
+                                </button>
+                                <button id="clear-btn" class="tool-btn">
+                                    <i class="fas fa-eraser"></i> Limpar
+                                </button>
+                            </div>
+
+                            <div class="validation-result">
+                                <div id="result-container" class="result-container">
+                                    <div class="result-icon">
+                                        <i class="fas fa-question-circle"></i>
+                                    </div>
+                                    <div class="result-message">
+                                        Digite um número e clique em validar para verificar sua validade.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="validation-details" id="validation-details"></div>
+                        </div>
+
+                        <!-- Tab de Geração -->
+                        <div class="validator-content hidden" id="generate-mode">
+                            <div class="document-type-selector">
+                                <div class="option-label">
+                                    <input type="radio" name="generate-document-type" id="generate-cpf-option"
+                                        value="cpf" checked>
+                                    <label for="generate-cpf-option">CPF</label>
+                                </div>
+                                <div class="option-label">
+                                    <input type="radio" name="generate-document-type" id="generate-cnpj-option"
+                                        value="cnpj">
+                                    <label for="generate-cnpj-option">CNPJ</label>
+                                </div>
+                            </div>
+
+                            <div class="format-options">
+                                <div class="option-label">
+                                    <input type="checkbox" id="formatted-option" checked>
+                                    <label for="formatted-option">Incluir pontuação (. / -)</label>
+                                </div>
+                            </div>
+
+                            <div class="state-selector" id="state-selector">
+                                <label for="state-select">Estado de emissão (CPF):</label>
+                                <select id="state-select" class="state-select">
+                                    <option value="">Aleatório</option>
+                                    <option value="df-go-ms-mt-to">DF, GO, MS, MT, TO</option>
+                                    <option value="ac-am-ap-pa-ro-rr">AC, AM, AP, PA, RO, RR</option>
+                                    <option value="ce-ma-pi">CE, MA, PI</option>
+                                    <option value="al-pb-pe-rn">AL, PB, PE, RN</option>
+                                    <option value="ba-se">BA, SE</option>
+                                    <option value="mg">MG</option>
+                                    <option value="es-rj">ES, RJ</option>
+                                    <option value="sp">SP</option>
+                                    <option value="pr-sc">PR, SC</option>
+                                    <option value="rs">RS</option>
+                                </select>
+                            </div>
+
+                            <div class="button-group">
+                                <button id="generate-btn" class="tool-btn primary">
+                                    <i class="fas fa-magic"></i> Gerar
+                                </button>
+                                <button id="generate-multiple-btn" class="tool-btn">
+                                    <i class="fas fa-list-ol"></i> Gerar Múltiplos
+                                </button>
+                            </div>
+
+                            <div class="generated-documents" id="generated-documents">
+                                <div class="generated-title">Documentos Gerados:</div>
+                                <div id="document-list" class="document-list">
+                                    <div class="empty-list">Clique no botão gerar para criar documentos</div>
+                                </div>
+                                <div class="document-actions">
+                                    <button id="copy-all-btn" class="tool-btn" disabled>
+                                        <i class="fas fa-copy"></i> Copiar Todos
+                                    </button>
+                                    <button id="clear-all-btn" class="tool-btn" disabled>
+                                        <i class="fas fa-trash"></i> Limpar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab de Informações -->
+                        <div class="validator-content hidden" id="info-mode">
+                            <div class="info-section">
+                                <h3><i class="fas fa-id-card"></i> O que é CPF?</h3>
+                                <p>CPF (Cadastro de Pessoas Físicas) é o registro de um cidadão na Receita Federal
+                                    brasileira. O número é único para cada contribuinte e contém 11 dígitos, sendo os
+                                    dois últimos dígitos verificadores.</p>
+
+                                <h4>Formato do CPF</h4>
+                                <p>O formato padrão é XXX.XXX.XXX-XX, onde:</p>
+                                <ul>
+                                    <li>Os primeiros 9 dígitos são a base do número</li>
+                                    <li>O 10º dígito é o primeiro dígito verificador</li>
+                                    <li>O 11º dígito é o segundo dígito verificador</li>
+                                    <li>O 9º dígito indica a região fiscal de emissão</li>
+                                </ul>
+
+                                <h4>Regiões fiscais</h4>
+                                <table class="info-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Dígito</th>
+                                            <th>Estados</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>0</td>
+                                            <td>RS</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>DF, GO, MS, MT, TO</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>AC, AM, AP, PA, RO, RR</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>CE, MA, PI</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>AL, PB, PE, RN</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>BA, SE</td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td>MG</td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td>
+                                            <td>ES, RJ</td>
+                                        </tr>
+                                        <tr>
+                                            <td>8</td>
+                                            <td>SP</td>
+                                        </tr>
+                                        <tr>
+                                            <td>9</td>
+                                            <td>PR, SC</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="info-section">
+                                <h3><i class="fas fa-building"></i> O que é CNPJ?</h3>
+                                <p>CNPJ (Cadastro Nacional da Pessoa Jurídica) é o número de identificação de empresas
+                                    brasileiras na Receita Federal. Contém 14 dígitos, sendo os dois últimos dígitos
+                                    verificadores.</p>
+
+                                <h4>Formato do CNPJ</h4>
+                                <p>O formato padrão é XX.XXX.XXX/XXXX-XX, onde:</p>
+                                <ul>
+                                    <li>Os primeiros 8 dígitos identificam a empresa</li>
+                                    <li>Os 4 dígitos seguintes (0001 a 9999) indicam a ordem de registro dos
+                                        estabelecimentos</li>
+                                    <li>Os 2 últimos dígitos são verificadores</li>
+                                </ul>
+
+                                <h4>Observações sobre o CNPJ</h4>
+                                <ul>
+                                    <li>0001 é normalmente utilizado para indicar a matriz (sede da empresa)</li>
+                                    <li>Filiais são identificadas com 0002, 0003, etc.</li>
+                                    <li>Os 8 primeiros dígitos são comuns entre matriz e filiais</li>
+                                </ul>
+                            </div>
+
+                            <div class="info-section">
+                                <h3><i class="fas fa-calculator"></i> Como é feita a validação?</h3>
+
+                                <h4>Validação do CPF</h4>
+                                <p>Para validar um CPF:</p>
+                                <ol>
+                                    <li>Remova pontuação e verifique se há 11 dígitos</li>
+                                    <li>Verifique se não são todos dígitos iguais (ex: 111.111.111-11)</li>
+                                    <li>Calcule o primeiro dígito verificador:
+                                        <ul>
+                                            <li>Multiplique os 9 primeiros dígitos por 10, 9, 8, 7, 6, 5, 4, 3, 2,
+                                                respectivamente</li>
+                                            <li>Some os resultados</li>
+                                            <li>Calcule o resto da divisão por 11</li>
+                                            <li>Se o resto for menor que 2, o dígito é 0; caso contrário, subtraia o
+                                                resto de 11</li>
+                                        </ul>
+                                    </li>
+                                    <li>Calcule o segundo dígito verificador:
+                                        <ul>
+                                            <li>Multiplique os 10 primeiros dígitos (incluindo o primeiro dígito
+                                                verificador) por 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, respectivamente</li>
+                                            <li>Some os resultados</li>
+                                            <li>Calcule o resto da divisão por 11</li>
+                                            <li>Se o resto for menor que 2, o dígito é 0; caso contrário, subtraia o
+                                                resto de 11</li>
+                                        </ul>
+                                    </li>
+                                </ol>
+
+                                <h4>Validação do CNPJ</h4>
+                                <p>Para validar um CNPJ:</p>
+                                <ol>
+                                    <li>Remova pontuação e verifique se há 14 dígitos</li>
+                                    <li>Verifique se não são todos dígitos iguais</li>
+                                    <li>Calcule o primeiro dígito verificador:
+                                        <ul>
+                                            <li>Multiplique os 12 primeiros dígitos por 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3,
+                                                2, respectivamente</li>
+                                            <li>Some os resultados</li>
+                                            <li>Calcule o resto da divisão por 11</li>
+                                            <li>Se o resto for menor que 2, o dígito é 0; caso contrário, subtraia o
+                                                resto de 11</li>
+                                        </ul>
+                                    </li>
+                                    <li>Calcule o segundo dígito verificador:
+                                        <ul>
+                                            <li>Multiplique os 13 primeiros dígitos (incluindo o primeiro dígito
+                                                verificador) por 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2, respectivamente
+                                            </li>
+                                            <li>Some os resultados</li>
+                                            <li>Calcule o resto da divisão por 11</li>
+                                            <li>Se o resto for menor que 2, o dígito é 0; caso contrário, subtraia o
+                                                resto de 11</li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <div class="info-section">
+                                <h3><i class="fas fa-exclamation-triangle"></i> Uso responsável</h3>
+                                <p>Esta ferramenta foi desenvolvida para fins educacionais, de teste e desenvolvimento.
+                                    Utilizar documentos falsos para fins ilegais é crime.</p>
+                                <p>O uso desta ferramenta é de total responsabilidade do usuário.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Modal para gerar múltiplos documentos -->
+    <div id="multiple-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Gerar Múltiplos Documentos</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label for="quantity-input">Quantidade (1-50):</label>
+                    <input type="number" id="quantity-input" class="quantity-input" value="10" min="1" max="50">
+                </div>
+                <div class="format-options">
+                    <div class="option-label">
+                        <input type="checkbox" id="modal-formatted-option" checked>
+                        <label for="modal-formatted-option">Incluir pontuação (. / -)</label>
+                    </div>
+                    <div class="option-label">
+                        <input type="checkbox" id="modal-line-break-option" checked>
+                        <label for="modal-line-break-option">Um documento por linha</label>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button id="modal-generate-btn" class="tool-btn primary">
+                        <i class="fas fa-magic"></i> Gerar
+                    </button>
+                    <button id="modal-cancel-btn" class="tool-btn">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/cpf-cnpj-validator.js"></script>
+</body>
+
+</html>

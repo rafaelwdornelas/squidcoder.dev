@@ -1,0 +1,298 @@
+/* static/css/date-calculator.css */
+/* Estilos específicos para a calculadora de diferença de datas */
+
+.calculator-container {
+    background-color: var(--bg-card);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Abas */
+.calculator-tabs {
+    display: flex;
+    overflow-x: auto;
+    background-color: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border);
+}
+
+.calculator-tab {
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.calculator-tab:hover {
+    color: var(--primary);
+    background-color: var(--bg-hover);
+}
+
+.calculator-tab.active {
+    color: var(--primary);
+    background-color: var(--bg-secondary);
+}
+
+.calculator-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--primary);
+}
+
+.calculator-tab i {
+    margin-right: 0.5rem;
+}
+
+/* Conteúdo */
+.calculator-content {
+    padding: 2rem;
+    background-color: var(--bg-secondary);
+}
+
+.calculator-content.hidden {
+    display: none;
+}
+
+/* Inputs de data */
+.date-inputs {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.date-group {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.date-group label {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.date-input {
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border);
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+/* Inputs de período */
+.period-inputs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.period-group {
+    flex: 1;
+    min-width: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.period-group label {
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.period-input {
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border);
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 1rem;
+    text-align: center;
+}
+
+/* Opções de cálculo */
+.calculation-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.option-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.option-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* Botões */
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.tool-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    border: none;
+    background-color: var(--bg-button);
+    color: var(--text-secondary);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tool-btn:hover {
+    background-color: var(--bg-button-hover);
+    color: var(--text-primary);
+}
+
+.tool-btn.primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.tool-btn.primary:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Resultados */
+.result-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.result-card {
+    background-color: var(--bg-tertiary);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.result-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+}
+
+.result-card.full-width {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    text-align: left;
+}
+
+.result-icon {
+    font-size: 1.75rem;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+}
+
+.result-card.full-width .result-icon {
+    margin-bottom: 0;
+}
+
+.result-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-family: var(--font-mono);
+}
+
+.result-label {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.result-date {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* Detalhes dos resultados */
+.detail-result {
+    background-color: var(--bg-tertiary);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.detail-result p {
+    margin-bottom: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.detail-result strong {
+    color: var(--text-primary);
+}
+
+.detail-result table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.detail-result th,
+.detail-result td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.detail-result th {
+    font-weight: 600;
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+}
+
+.detail-result tr:hover {
+    background-color: var(--bg-hover);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .date-inputs {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .calculator-tab {
+        font-size: 0.85rem;
+        padding: 0.75rem 1rem;
+    }
+}
