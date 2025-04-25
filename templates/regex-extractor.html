@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="stylesheet" href="/static/css/regex-extractor.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="regex-extractor">
+                <div class="tool-header">
+                    <h1 class="tool-title">Regex Extractor</h1>
+                    <p class="tool-description">Extraia padrões de texto usando expressões regulares</p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="regex-container">
+                        <div class="input-section">
+                            <div class="regex-input-group">
+                                <label for="regex-pattern">Padrão Regex:</label>
+                                <div class="pattern-input-wrapper">
+                                    <span class="pattern-delimiter">/</span>
+                                    <input type="text" id="regex-pattern" class="regex-pattern-input"
+                                        placeholder="Digite sua expressão regular...">
+                                    <span class="pattern-delimiter">/</span>
+                                    <input type="text" id="regex-flags" class="regex-flags-input" placeholder="gim"
+                                        maxlength="5">
+                                </div>
+                                <div class="pattern-presets">
+                                    <select id="preset-patterns" class="preset-select">
+                                        <option value="">Selecione um padrão comum...</option>
+                                        <option value="email">Endereços de Email</option>
+                                        <option value="url">URLs</option>
+                                        <option value="phone">Números de Telefone</option>
+                                        <option value="ip">Endereços IP</option>
+                                        <option value="date">Datas (DD/MM/YYYY)</option>
+                                        <option value="html-tag">Tags HTML</option>
+                                        <option value="twitter">@menções Twitter</option>
+                                        <option value="hashtag">#hashtags</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="text-input-group">
+                                <label for="input-text">Texto para analisar:</label>
+                                <textarea id="input-text" class="text-area"
+                                    placeholder="Cole aqui o texto para extrair padrões..."></textarea>
+                                <div class="button-group">
+                                    <button id="extract-btn" class="action-btn primary">
+                                        <i class="fas fa-filter"></i> Extrair
+                                    </button>
+                                    <button id="highlight-btn" class="action-btn secondary">
+                                        <i class="fas fa-highlighter"></i> Destacar no Texto
+                                    </button>
+                                    <button id="clear-btn" class="action-btn secondary">
+                                        <i class="fas fa-eraser"></i> Limpar
+                                    </button>
+                                    <button id="sample-btn" class="action-btn secondary">
+                                        <i class="fas fa-vial"></i> Exemplo
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="output-section">
+                            <div class="output-header">
+                                <h3>Resultados Extraídos <span id="match-count">(0 correspondências)</span></h3>
+                                <div class="output-actions">
+                                    <button id="copy-btn" class="action-btn secondary">
+                                        <i class="fas fa-copy"></i> Copiar
+                                    </button>
+                                    <div class="format-selector">
+                                        <div class="format-option active" data-format="list">Lista</div>
+                                        <div class="format-option" data-format="csv">CSV</div>
+                                        <div class="format-option" data-format="json">JSON</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="output-content" class="output-content"></div>
+                            <div id="highlight-container" class="highlight-container"></div>
+                            <div id="no-matches" class="no-matches">Nenhum resultado encontrado para este padrão.</div>
+                        </div>
+
+                        <div class="info-section">
+                            <h3>Guia Rápido de Regex</h3>
+                            <div class="regex-cheatsheet">
+                                <div class="cheatsheet-item">
+                                    <span class="cheatsheet-symbol">.</span>
+                                    <span class="cheatsheet-desc">Corresponde a qualquer caractere, exceto quebra de
+                                        linha</span>
+                                </div>
+                                <div class="cheatsheet-item">
+                                    <span class="cheatsheet-symbol">^</span>
+                                    <span class="cheatsheet-desc">Início da linha</span>
+                                </div>
+                                <div class="cheatsheet-item">
+                                    <span class="cheatsheet-symbol">$</span>
+                                    <span class="cheatsheet-desc">Fim da linha</span>
+                                </div>
+                                <div class="cheatsheet-item">
+                                    <span class="cheatsheet-symbol">*</span>
+                                    <span class="cheatsheet-desc">0 ou mais ocorrências</span>
+                                </div>
+                                <div class="cheatsheet-item">
+                                    <span class="cheatsheet-symbol">+</span>
+                                    <span class="cheatsheet-desc">1 ou mais ocorrências</span>
+                                </div>
+                                <div class="cheatsheet-item">
+                                    <span class="cheatsheet-symbol">?</span>
+                                    <span class="cheatsheet-desc">0 ou 1 ocorrência</span>
+                                </div>
+                                <div class="cheatsheet-item">
+                                    <span class="cheatsheet-symbol">\d</span>
+                                    <span class="cheatsheet-desc">Dígito (0-9)</span>
+                                </div>
+                                <div class="cheatsheet-item">
+                                    <span class="cheatsheet-symbol">\w</span>
+                                    <span class="cheatsheet-desc">Caractere de palavra (a-z, A-Z, 0-9, _)</span>
+                                </div>
+                                <div class="cheatsheet-item">
+                                    <span class="cheatsheet-symbol">\s</span>
+                                    <span class="cheatsheet-desc">Espaço em branco</span>
+                                </div>
+                                <div class="cheatsheet-item">
+                                    <span class="cheatsheet-symbol">[abc]</span>
+                                    <span class="cheatsheet-desc">Corresponde a 'a', 'b' ou 'c'</span>
+                                </div>
+                                <div class="cheatsheet-item">
+                                    <span class="cheatsheet-symbol">[^abc]</span>
+                                    <span class="cheatsheet-desc">Corresponde a qualquer caractere exceto 'a', 'b' ou
+                                        'c'</span>
+                                </div>
+                                <div class="cheatsheet-item">
+                                    <span class="cheatsheet-symbol">(x|y)</span>
+                                    <span class="cheatsheet-desc">Corresponde a 'x' ou 'y'</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/regex-extractor.js"></script>
+</body>
+
+</html>
+```

@@ -1,0 +1,383 @@
+/* static/css/regex-extractor.css */
+/* Estilos específicos para o extrator regex */
+
+.regex-container {
+    background-color: var(--bg-secondary);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Estilização da seção de entrada */
+.input-section {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+/* Grupo do padrão regex */
+.regex-input-group {
+    margin-bottom: 1.5rem;
+}
+
+.regex-input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.pattern-input-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-input);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.pattern-delimiter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    background-color: var(--bg-tertiary);
+    height: 3rem;
+}
+
+.regex-pattern-input {
+    flex: 1;
+    height: 3rem;
+    padding: 0 1rem;
+    border: none;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+}
+
+.regex-flags-input {
+    width: 80px;
+    height: 3rem;
+    padding: 0 1rem;
+    border: none;
+    border-left: 1px solid var(--border);
+    background-color: var(--bg-input);
+    color: var(--primary);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.pattern-presets {
+    margin-top: 0.75rem;
+}
+
+.preset-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+/* Grupo de entrada de texto */
+.text-input-group {
+    margin-bottom: 1rem;
+}
+
+.text-input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.text-area {
+    width: 100%;
+    height: 200px;
+    padding: 1rem;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    resize: vertical;
+}
+
+/* Grupo de botões */
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background-color: var(--bg-button);
+    border: none;
+    border-radius: var(--border-radius);
+    color: var(--text-secondary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    background-color: var(--bg-button-hover);
+    color: var(--text-primary);
+}
+
+.action-btn.primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.action-btn.primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.action-btn.secondary {
+    background-color: var(--bg-tertiary);
+}
+
+.action-btn.secondary:hover {
+    background-color: var(--bg-hover);
+}
+
+/* Seção de saída */
+.output-section {
+    padding: 1.5rem;
+    background-color: var(--bg-tertiary);
+}
+
+.output-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.output-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.output-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.format-selector {
+    display: flex;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+}
+
+.format-option {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-secondary);
+}
+
+.format-option:hover {
+    background-color: var(--bg-hover);
+}
+
+.format-option.active {
+    background-color: var(--primary);
+    color: white;
+}
+
+.output-content {
+    padding: 1rem;
+    background-color: var(--bg-input);
+    border-radius: var(--border-radius);
+    min-height: 150px;
+    max-height: 300px;
+    overflow-y: auto;
+    color: var(--text-primary);
+}
+
+.highlight-container {
+    padding: 1rem;
+    background-color: var(--bg-input);
+    border-radius: var(--border-radius);
+    min-height: 150px;
+    max-height: 300px;
+    overflow-y: auto;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.highlighted-match {
+    background-color: rgba(59, 130, 246, 0.2);
+    border-radius: 3px;
+    padding: 0 2px;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+/* Estilização das listas de matches */
+.matches-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.match-item {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+}
+
+.match-item:last-child {
+    border-bottom: none;
+}
+
+.match-item:hover {
+    background-color: var(--bg-hover);
+}
+
+/* Estilização para saída CSV/JSON */
+.csv-output, .json-output {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    white-space: pre-wrap;
+    overflow-x: auto;
+}
+
+.no-matches {
+    text-align: center;
+    color: var(--text-tertiary);
+    padding: 2rem;
+    font-style: italic;
+}
+
+/* Guia rápido de regex */
+.info-section {
+    padding: 1.5rem;
+    background-color: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+}
+
+.info-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.regex-cheatsheet {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 0.75rem;
+}
+
+.cheatsheet-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--bg-tertiary);
+    border-radius: var(--border-radius);
+    border-left: 3px solid var(--primary);
+}
+
+.cheatsheet-symbol {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--primary);
+}
+
+.cheatsheet-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Mensagens */
+.error-message, .success-message {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    padding: 1rem 1.5rem;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.error-message {
+    background-color: var(--danger);
+    color: white;
+}
+
+.success-message {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.error-message.show, .success-message.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+.empty-result {
+    color: var(--text-tertiary);
+    font-style: italic;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .output-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .output-actions {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+    
+    .regex-cheatsheet {
+        grid-template-columns: 1fr;
+    }
+    
+    .pattern-input-wrapper {
+        flex-wrap: wrap;
+    }
+    
+    .regex-flags-input {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid var(--border);
+    }
+}

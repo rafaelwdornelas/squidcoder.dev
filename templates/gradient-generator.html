@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="stylesheet" href="/static/css/gradient-generator.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="gradient-generator">
+                <div class="tool-header">
+                    <h1 class="tool-title">Gerador de Gradientes CSS</h1>
+                    <p class="tool-description">Crie e personalize gradientes CSS para seus projetos</p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="gradient-container">
+                        <!-- Área de visualização do gradiente -->
+                        <div class="gradient-preview-wrapper">
+                            <div id="gradient-preview" class="gradient-preview"></div>
+                            <div class="gradient-actions">
+                                <button id="copy-css-btn" class="tool-btn primary">
+                                    <i class="fas fa-copy"></i> Copiar CSS
+                                </button>
+                                <button id="save-preset-btn" class="tool-btn secondary">
+                                    <i class="fas fa-save"></i> Salvar Preset
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Controles do gradiente -->
+                        <div class="gradient-controls">
+                            <div class="control-section">
+                                <h3>Tipo de Gradiente</h3>
+                                <div class="gradient-type-selector">
+                                    <div class="gradient-type active" data-type="linear">
+                                        <i class="fas fa-grip-lines"></i>
+                                        <span>Linear</span>
+                                    </div>
+                                    <div class="gradient-type" data-type="radial">
+                                        <i class="fas fa-circle"></i>
+                                        <span>Radial</span>
+                                    </div>
+                                    <div class="gradient-type" data-type="conic">
+                                        <i class="fas fa-sync-alt"></i>
+                                        <span>Cônico</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Controles específicos para gradiente linear -->
+                            <div id="linear-controls" class="control-section gradient-type-controls">
+                                <h3>Direção</h3>
+                                <div class="direction-controls">
+                                    <div class="direction-selector">
+                                        <div class="direction-btn" data-angle="to top" title="Para cima">
+                                            <i class="fas fa-arrow-up"></i>
+                                        </div>
+                                        <div class="direction-btn" data-angle="to right top"
+                                            title="Para direita e cima">
+                                            <i class="fas fa-arrow-up" style="transform: rotate(45deg);"></i>
+                                        </div>
+                                        <div class="direction-btn" data-angle="to right" title="Para direita">
+                                            <i class="fas fa-arrow-right"></i>
+                                        </div>
+                                        <div class="direction-btn" data-angle="to right bottom"
+                                            title="Para direita e baixo">
+                                            <i class="fas fa-arrow-down" style="transform: rotate(-45deg);"></i>
+                                        </div>
+                                        <div class="direction-btn" data-angle="to bottom" title="Para baixo">
+                                            <i class="fas fa-arrow-down"></i>
+                                        </div>
+                                        <div class="direction-btn" data-angle="to left bottom"
+                                            title="Para esquerda e baixo">
+                                            <i class="fas fa-arrow-down" style="transform: rotate(45deg);"></i>
+                                        </div>
+                                        <div class="direction-btn" data-angle="to left" title="Para esquerda">
+                                            <i class="fas fa-arrow-left"></i>
+                                        </div>
+                                        <div class="direction-btn" data-angle="to left top"
+                                            title="Para esquerda e cima">
+                                            <i class="fas fa-arrow-up" style="transform: rotate(-45deg);"></i>
+                                        </div>
+                                        <div class="direction-btn active" data-angle="custom"
+                                            title="Ângulo personalizado">
+                                            <i class="fas fa-drafting-compass"></i>
+                                        </div>
+                                    </div>
+                                    <div class="angle-input-group">
+                                        <label for="angle-input">Ângulo Personalizado</label>
+                                        <div class="angle-input-wrapper">
+                                            <input type="number" id="angle-input" min="0" max="359" value="90">
+                                            <span class="angle-unit">°</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Controles específicos para gradiente radial -->
+                            <div id="radial-controls" class="control-section gradient-type-controls"
+                                style="display: none;">
+                                <h3>Forma e Posição</h3>
+                                <div class="radial-options">
+                                    <div class="form-group">
+                                        <label for="radial-shape">Forma</label>
+                                        <select id="radial-shape" class="form-select">
+                                            <option value="circle">Círculo</option>
+                                            <option value="ellipse">Elipse</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="radial-position">Posição</label>
+                                        <select id="radial-position" class="form-select">
+                                            <option value="center">Centro</option>
+                                            <option value="top left">Superior Esquerdo</option>
+                                            <option value="top">Superior</option>
+                                            <option value="top right">Superior Direito</option>
+                                            <option value="left">Esquerdo</option>
+                                            <option value="right">Direito</option>
+                                            <option value="bottom left">Inferior Esquerdo</option>
+                                            <option value="bottom">Inferior</option>
+                                            <option value="bottom right">Inferior Direito</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="radial-size">Tamanho</label>
+                                        <select id="radial-size" class="form-select">
+                                            <option value="farthest-corner">Canto mais distante</option>
+                                            <option value="closest-corner">Canto mais próximo</option>
+                                            <option value="farthest-side">Lado mais distante</option>
+                                            <option value="closest-side">Lado mais próximo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Controles específicos para gradiente cônico -->
+                            <div id="conic-controls" class="control-section gradient-type-controls"
+                                style="display: none;">
+                                <h3>Posição e Ângulo</h3>
+                                <div class="conic-options">
+                                    <div class="form-group">
+                                        <label for="conic-position">Posição</label>
+                                        <select id="conic-position" class="form-select">
+                                            <option value="center">Centro</option>
+                                            <option value="top left">Superior Esquerdo</option>
+                                            <option value="top">Superior</option>
+                                            <option value="top right">Superior Direito</option>
+                                            <option value="left">Esquerdo</option>
+                                            <option value="right">Direito</option>
+                                            <option value="bottom left">Inferior Esquerdo</option>
+                                            <option value="bottom">Inferior</option>
+                                            <option value="bottom right">Inferior Direito</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="conic-angle">Ângulo Inicial</label>
+                                        <div class="angle-input-wrapper">
+                                            <input type="number" id="conic-angle" min="0" max="359" value="0">
+                                            <span class="angle-unit">°</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Controlador de cores do gradiente -->
+                            <div class="control-section">
+                                <h3>Cores</h3>
+                                <div id="color-stops-container" class="color-stops-container">
+                                    <div class="color-stop-controls">
+                                        <div class="color-stops" id="color-stops-bar">
+                                            <div class="color-stop" data-position="0" data-color="#FF5F6D"
+                                                style="left: 0%; background-color: #FF5F6D;"></div>
+                                            <div class="color-stop" data-position="100" data-color="#FFC371"
+                                                style="left: 100%; background-color: #FFC371;"></div>
+                                        </div>
+                                        <button id="add-color-btn" class="add-color-btn">
+                                            <i class="fas fa-plus"></i> Adicionar Cor
+                                        </button>
+                                    </div>
+                                    <div class="active-color-editor">
+                                        <div class="color-editor-header">
+                                            <span>Editar Cor Selecionada</span>
+                                            <button id="remove-color-btn" class="remove-color-btn">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                        <div class="color-editor-form">
+                                            <div class="form-group">
+                                                <label for="color-picker">Cor</label>
+                                                <input type="color" id="color-picker" value="#FF5F6D">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="color-position">Posição</label>
+                                                <div class="position-input-wrapper">
+                                                    <input type="number" id="color-position" min="0" max="100"
+                                                        value="0">
+                                                    <span class="position-unit">%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Opções adicionais -->
+                            <div class="control-section">
+                                <h3>Opções</h3>
+                                <div class="options-grid">
+                                    <div class="form-group">
+                                        <label for="repeat-gradient">Repetir Gradiente</label>
+                                        <select id="repeat-gradient" class="form-select">
+                                            <option value="">Sem repetição</option>
+                                            <option value="repeating-">Repetir</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Paleta de gradientes -->
+                        <div class="gradient-presets">
+                            <h3>Presets Populares</h3>
+                            <div class="presets-grid">
+                                <div class="preset-item" data-colors="#FF5F6D,#FFC371"
+                                    style="background: linear-gradient(90deg, #FF5F6D, #FFC371);">
+                                    <span class="preset-name">Sunset</span>
+                                </div>
+                                <div class="preset-item" data-colors="#4158D0,#C850C0,#FFCC70"
+                                    style="background: linear-gradient(90deg, #4158D0, #C850C0, #FFCC70);">
+                                    <span class="preset-name">Royal</span>
+                                </div>
+                                <div class="preset-item" data-colors="#0093E9,#80D0C7"
+                                    style="background: linear-gradient(90deg, #0093E9, #80D0C7);">
+                                    <span class="preset-name">Sky Blue</span>
+                                </div>
+                                <div class="preset-item" data-colors="#8EC5FC,#E0C3FC"
+                                    style="background: linear-gradient(90deg, #8EC5FC, #E0C3FC);">
+                                    <span class="preset-name">Lavender</span>
+                                </div>
+                                <div class="preset-item" data-colors="#85FFBD,#FFFB7D"
+                                    style="background: linear-gradient(90deg, #85FFBD, #FFFB7D);">
+                                    <span class="preset-name">Fresh Lime</span>
+                                </div>
+                                <div class="preset-item" data-colors="#FA8BFF,#2BD2FF,#2BFF88"
+                                    style="background: linear-gradient(90deg, #FA8BFF, #2BD2FF, #2BFF88);">
+                                    <span class="preset-name">Unicorn</span>
+                                </div>
+                                <div class="preset-item" data-colors="#FF3CAC,#784BA0,#2B86C5"
+                                    style="background: linear-gradient(90deg, #FF3CAC, #784BA0, #2B86C5);">
+                                    <span class="preset-name">Cosmic</span>
+                                </div>
+                                <div class="preset-item" data-colors="#FF9A8B,#FF6A88,#FF99AC"
+                                    style="background: linear-gradient(90deg, #FF9A8B, #FF6A88, #FF99AC);">
+                                    <span class="preset-name">Peachy</span>
+                                </div>
+                                <div class="preset-item" data-colors="#FF3CAC,#562B7C,#2B86C5"
+                                    style="background: linear-gradient(90deg, #FF3CAC, #562B7C, #2B86C5);">
+                                    <span class="preset-name">Nebula</span>
+                                </div>
+                                <div class="preset-item" data-colors="#08AEEA,#2AF598"
+                                    style="background: linear-gradient(90deg, #08AEEA, #2AF598);">
+                                    <span class="preset-name">Aqua</span>
+                                </div>
+                                <div class="preset-item custom-preset-btn" id="load-custom-presets">
+                                    <i class="fas fa-palette"></i>
+                                    <span>Meus Presets</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Saída do código CSS -->
+                        <div class="code-output-section">
+                            <div class="code-header">
+                                <h3>Código CSS</h3>
+                                <button id="copy-output-btn" class="tool-btn secondary">
+                                    <i class="fas fa-copy"></i> Copiar
+                                </button>
+                            </div>
+                            <pre id="css-output" class="code-output"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+
+        <!-- Modal para salvar presets -->
+        <div id="preset-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Salvar Preset</h3>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="preset-name">Nome do Preset</label>
+                        <input type="text" id="preset-name" placeholder="Digite um nome para o seu preset...">
+                    </div>
+                    <div class="modal-footer">
+                        <button id="save-preset-confirm" class="tool-btn primary">Salvar</button>
+                        <button id="cancel-preset" class="tool-btn secondary">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para carregar presets personalizados -->
+        <div id="custom-presets-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Meus Presets Salvos</h3>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div id="custom-presets-container" class="custom-presets-container">
+                        <div class="empty-presets-message">
+                            <i class="fas fa-info-circle"></i>
+                            <p>Você ainda não salvou nenhum preset personalizado.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/gradient-generator.js"></script>
+</body>
+
+</html>
+```

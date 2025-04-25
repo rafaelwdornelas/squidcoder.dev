@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="stylesheet" href="/static/css/flexbox-grid-generator.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="flexbox-grid-generator">
+                <div class="tool-header">
+                    <h1 class="tool-title">Gerador de Flexbox/Grids CSS</h1>
+                    <p class="tool-description">Crie layouts responsivos com Flexbox e CSS Grid facilmente</p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="layout-container">
+                        <!-- Seletor de layout -->
+                        <div class="layout-selector">
+                            <button class="layout-type active" data-type="flexbox">
+                                <i class="fas fa-columns"></i>
+                                <span>Flexbox</span>
+                            </button>
+                            <button class="layout-type" data-type="grid">
+                                <i class="fas fa-th"></i>
+                                <span>CSS Grid</span>
+                            </button>
+                        </div>
+
+                        <!-- Visualização do Layout -->
+                        <div class="layout-preview-wrapper">
+                            <h3 class="section-title">Visualização</h3>
+                            <div class="preview-actions">
+                                <button id="add-item-btn" class="tool-btn secondary">
+                                    <i class="fas fa-plus"></i> Adicionar Item
+                                </button>
+                                <button id="remove-item-btn" class="tool-btn secondary">
+                                    <i class="fas fa-minus"></i> Remover Item
+                                </button>
+                                <div class="spacer"></div>
+                                <button id="reset-layout-btn" class="tool-btn secondary">
+                                    <i class="fas fa-undo"></i> Resetar
+                                </button>
+                            </div>
+                            <div class="layout-preview-container">
+                                <div id="layout-preview" class="layout-preview">
+                                    <div class="preview-item">1</div>
+                                    <div class="preview-item">2</div>
+                                    <div class="preview-item">3</div>
+                                    <div class="preview-item">4</div>
+                                    <div class="preview-item">5</div>
+                                </div>
+                            </div>
+                            <div class="preview-responsive-toggle">
+                                <span>Visualizar em:</span>
+                                <div class="device-toggle">
+                                    <button class="device-btn active" data-width="100%">
+                                        <i class="fas fa-desktop"></i>
+                                    </button>
+                                    <button class="device-btn" data-width="768px">
+                                        <i class="fas fa-tablet-alt"></i>
+                                    </button>
+                                    <button class="device-btn" data-width="375px">
+                                        <i class="fas fa-mobile-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Controles de Flexbox -->
+                        <div id="flexbox-controls" class="layout-controls-panel">
+                            <h3 class="section-title">Propriedades do Container Flexbox</h3>
+                            <div class="controls-section">
+                                <div class="control-group">
+                                    <label for="flex-direction">flex-direction</label>
+                                    <select id="flex-direction" class="control-select">
+                                        <option value="row">row</option>
+                                        <option value="row-reverse">row-reverse</option>
+                                        <option value="column">column</option>
+                                        <option value="column-reverse">column-reverse</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="flex-wrap">flex-wrap</label>
+                                    <select id="flex-wrap" class="control-select">
+                                        <option value="nowrap">nowrap</option>
+                                        <option value="wrap" selected>wrap</option>
+                                        <option value="wrap-reverse">wrap-reverse</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="justify-content">justify-content</label>
+                                    <select id="justify-content" class="control-select">
+                                        <option value="flex-start">flex-start</option>
+                                        <option value="flex-end">flex-end</option>
+                                        <option value="center">center</option>
+                                        <option value="space-between">space-between</option>
+                                        <option value="space-around">space-around</option>
+                                        <option value="space-evenly">space-evenly</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="align-items">align-items</label>
+                                    <select id="align-items" class="control-select">
+                                        <option value="flex-start">flex-start</option>
+                                        <option value="flex-end">flex-end</option>
+                                        <option value="center">center</option>
+                                        <option value="baseline">baseline</option>
+                                        <option value="stretch">stretch</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="align-content">align-content</label>
+                                    <select id="align-content" class="control-select">
+                                        <option value="flex-start">flex-start</option>
+                                        <option value="flex-end">flex-end</option>
+                                        <option value="center">center</option>
+                                        <option value="space-between">space-between</option>
+                                        <option value="space-around">space-around</option>
+                                        <option value="stretch">stretch</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="gap">gap</label>
+                                    <div class="range-container">
+                                        <input type="range" id="flex-gap" min="0" max="50" value="10">
+                                        <span id="flex-gap-value">10px</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3 class="section-title">Propriedades dos Itens Flex</h3>
+                            <div class="controls-tabs">
+                                <div class="tabs-header">
+                                    <button class="tab-btn active" data-tab="all-items">Todos os Itens</button>
+                                    <button class="tab-btn" data-tab="individual-item">Item Selecionado</button>
+                                </div>
+                                <div class="tab-content active" id="all-items-tab">
+                                    <div class="control-group">
+                                        <label for="align-self-all">align-self</label>
+                                        <select id="align-self-all" class="control-select">
+                                            <option value="auto">auto</option>
+                                            <option value="flex-start">flex-start</option>
+                                            <option value="flex-end">flex-end</option>
+                                            <option value="center">center</option>
+                                            <option value="baseline">baseline</option>
+                                            <option value="stretch">stretch</option>
+                                        </select>
+                                    </div>
+                                    <div class="control-group">
+                                        <label for="flex-grow-all">flex-grow</label>
+                                        <input type="number" id="flex-grow-all" class="control-input" value="0" min="0"
+                                            max="10" step="1">
+                                    </div>
+                                    <div class="control-group">
+                                        <label for="flex-shrink-all">flex-shrink</label>
+                                        <input type="number" id="flex-shrink-all" class="control-input" value="1"
+                                            min="0" max="10" step="1">
+                                    </div>
+                                    <div class="control-group">
+                                        <label for="flex-basis-all">flex-basis</label>
+                                        <div class="unit-input">
+                                            <input type="text" id="flex-basis-all" class="control-input" value="auto">
+                                            <select id="flex-basis-unit-all" class="unit-select">
+                                                <option value="">auto</option>
+                                                <option value="%">%</option>
+                                                <option value="px">px</option>
+                                                <option value="rem">rem</option>
+                                                <option value="fr">fr</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-content" id="individual-item-tab">
+                                    <div class="select-item-message">
+                                        <i class="fas fa-hand-pointer"></i>
+                                        <p>Clique em um item no preview para editar suas propriedades.</p>
+                                    </div>
+                                    <div class="item-controls" style="display: none;">
+                                        <div class="control-group">
+                                            <label for="align-self">align-self</label>
+                                            <select id="align-self" class="control-select">
+                                                <option value="auto">auto</option>
+                                                <option value="flex-start">flex-start</option>
+                                                <option value="flex-end">flex-end</option>
+                                                <option value="center">center</option>
+                                                <option value="baseline">baseline</option>
+                                                <option value="stretch">stretch</option>
+                                            </select>
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="flex-grow">flex-grow</label>
+                                            <input type="number" id="flex-grow" class="control-input" value="0" min="0"
+                                                max="10" step="1">
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="flex-shrink">flex-shrink</label>
+                                            <input type="number" id="flex-shrink" class="control-input" value="1"
+                                                min="0" max="10" step="1">
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="flex-basis">flex-basis</label>
+                                            <div class="unit-input">
+                                                <input type="text" id="flex-basis" class="control-input" value="auto">
+                                                <select id="flex-basis-unit" class="unit-select">
+                                                    <option value="">auto</option>
+                                                    <option value="%">%</option>
+                                                    <option value="px">px</option>
+                                                    <option value="rem">rem</option>
+                                                    <option value="fr">fr</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="flex-order">order</label>
+                                            <input type="number" id="flex-order" class="control-input" value="0"
+                                                min="-10" max="10" step="1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Controles de Grid -->
+                        <div id="grid-controls" class="layout-controls-panel" style="display: none;">
+                            <h3 class="section-title">Propriedades do Container Grid</h3>
+                            <div class="controls-section">
+                                <div class="control-group">
+                                    <label for="grid-template-columns">grid-template-columns</label>
+                                    <div class="template-input">
+                                        <input type="text" id="grid-template-columns" class="control-input"
+                                            value="repeat(3, 1fr)">
+                                        <button id="columns-builder-btn" class="template-builder-btn">
+                                            <i class="fas fa-th"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="grid-template-rows">grid-template-rows</label>
+                                    <div class="template-input">
+                                        <input type="text" id="grid-template-rows" class="control-input" value="auto">
+                                        <button id="rows-builder-btn" class="template-builder-btn">
+                                            <i class="fas fa-th"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="grid-gap">gap</label>
+                                    <div class="range-container">
+                                        <input type="range" id="grid-gap" min="0" max="50" value="10">
+                                        <span id="grid-gap-value">10px</span>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="grid-gap-x">column-gap</label>
+                                    <div class="range-container">
+                                        <input type="range" id="grid-column-gap" min="0" max="50" value="10">
+                                        <span id="grid-column-gap-value">10px</span>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="grid-gap-y">row-gap</label>
+                                    <div class="range-container">
+                                        <input type="range" id="grid-row-gap" min="0" max="50" value="10">
+                                        <span id="grid-row-gap-value">10px</span>
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="justify-items">justify-items</label>
+                                    <select id="justify-items" class="control-select">
+                                        <option value="start">start</option>
+                                        <option value="end">end</option>
+                                        <option value="center">center</option>
+                                        <option value="stretch" selected>stretch</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="align-grid-items">align-items</label>
+                                    <select id="align-grid-items" class="control-select">
+                                        <option value="start">start</option>
+                                        <option value="end">end</option>
+                                        <option value="center">center</option>
+                                        <option value="stretch" selected>stretch</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="justify-grid-content">justify-content</label>
+                                    <select id="justify-grid-content" class="control-select">
+                                        <option value="start">start</option>
+                                        <option value="end">end</option>
+                                        <option value="center">center</option>
+                                        <option value="stretch">stretch</option>
+                                        <option value="space-between">space-between</option>
+                                        <option value="space-around">space-around</option>
+                                        <option value="space-evenly">space-evenly</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="align-grid-content">align-content</label>
+                                    <select id="align-grid-content" class="control-select">
+                                        <option value="start">start</option>
+                                        <option value="end">end</option>
+                                        <option value="center">center</option>
+                                        <option value="stretch">stretch</option>
+                                        <option value="space-between">space-between</option>
+                                        <option value="space-around">space-around</option>
+                                        <option value="space-evenly">space-evenly</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <h3 class="section-title">Propriedades dos Itens Grid</h3>
+                            <div class="controls-tabs">
+                                <div class="tabs-header">
+                                    <button class="tab-btn active" data-tab="all-grid-items">Todos os Itens</button>
+                                    <button class="tab-btn" data-tab="individual-grid-item">Item Selecionado</button>
+                                </div>
+                                <div class="tab-content active" id="all-grid-items-tab">
+                                    <div class="control-group">
+                                        <label for="justify-self-all">justify-self</label>
+                                        <select id="justify-self-all" class="control-select">
+                                            <option value="auto">auto</option>
+                                            <option value="start">start</option>
+                                            <option value="end">end</option>
+                                            <option value="center">center</option>
+                                            <option value="stretch">stretch</option>
+                                        </select>
+                                    </div>
+                                    <div class="control-group">
+                                        <label for="align-self-grid-all">align-self</label>
+                                        <select id="align-self-grid-all" class="control-select">
+                                            <option value="auto">auto</option>
+                                            <option value="start">start</option>
+                                            <option value="end">end</option>
+                                            <option value="center">center</option>
+                                            <option value="stretch">stretch</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="tab-content" id="individual-grid-item-tab">
+                                    <div class="select-item-message">
+                                        <i class="fas fa-hand-pointer"></i>
+                                        <p>Clique em um item no preview para editar suas propriedades.</p>
+                                    </div>
+                                    <div class="item-controls" style="display: none;">
+                                        <div class="control-group">
+                                            <label for="grid-column-start">grid-column-start</label>
+                                            <input type="number" id="grid-column-start" class="control-input"
+                                                value="auto" min="1" max="12">
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="grid-column-end">grid-column-end</label>
+                                            <input type="number" id="grid-column-end" class="control-input" value="auto"
+                                                min="1" max="12">
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="grid-row-start">grid-row-start</label>
+                                            <input type="number" id="grid-row-start" class="control-input" value="auto"
+                                                min="1" max="12">
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="grid-row-end">grid-row-end</label>
+                                            <input type="number" id="grid-row-end" class="control-input" value="auto"
+                                                min="1" max="12">
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="justify-self">justify-self</label>
+                                            <select id="justify-self" class="control-select">
+                                                <option value="auto">auto</option>
+                                                <option value="start">start</option>
+                                                <option value="end">end</option>
+                                                <option value="center">center</option>
+                                                <option value="stretch">stretch</option>
+                                            </select>
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="align-self-grid">align-self</label>
+                                            <select id="align-self-grid" class="control-select">
+                                                <option value="auto">auto</option>
+                                                <option value="start">start</option>
+                                                <option value="end">end</option>
+                                                <option value="center">center</option>
+                                                <option value="stretch">stretch</option>
+                                            </select>
+                                        </div>
+                                        <div class="control-group">
+                                            <label for="grid-area">grid-area (nome)</label>
+                                            <input type="text" id="grid-area" class="control-input" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Presets de Layout -->
+                        <div class="layout-presets">
+                            <h3 class="section-title">Presets Populares</h3>
+                            <div class="presets-tabs">
+                                <div class="tabs-header">
+                                    <button class="preset-tab-btn active" data-tab="flexbox-presets">Flexbox</button>
+                                    <button class="preset-tab-btn" data-tab="grid-presets">CSS Grid</button>
+                                </div>
+                                <div class="preset-tab-content active" id="flexbox-presets-tab">
+                                    <div class="presets-grid">
+                                        <div class="preset-item" data-preset="flex-row">
+                                            <div class="preset-preview">
+                                                <div class="preview-item">1</div>
+                                                <div class="preview-item">2</div>
+                                                <div class="preview-item">3</div>
+                                            </div>
+                                            <span class="preset-name">Linha</span>
+                                        </div>
+                                        <div class="preset-item" data-preset="flex-column">
+                                            <div class="preset-preview preset-column">
+                                                <div class="preview-item">1</div>
+                                                <div class="preview-item">2</div>
+                                                <div class="preview-item">3</div>
+                                            </div>
+                                            <span class="preset-name">Coluna</span>
+                                        </div>
+                                        <div class="preset-item" data-preset="flex-wrap">
+                                            <div class="preset-preview preset-wrap">
+                                                <div class="preview-item">1</div>
+                                                <div class="preview-item">2</div>
+                                                <div class="preview-item">3</div>
+                                                <div class="preview-item">4</div>
+                                                <div class="preview-item">5</div>
+                                            </div>
+                                            <span class="preset-name">Wrap</span>
+                                        </div>
+                                        <div class="preset-item" data-preset="flex-center">
+                                            <div class="preset-preview preset-center">
+                                                <div class="preview-item">1</div>
+                                            </div>
+                                            <span class="preset-name">Centralizado</span>
+                                        </div>
+                                        <div class="preset-item" data-preset="flex-space-between">
+                                            <div class="preset-preview preset-space-between">
+                                                <div class="preview-item">1</div>
+                                                <div class="preview-item">2</div>
+                                                <div class="preview-item">3</div>
+                                            </div>
+                                            <span class="preset-name">Distribuído</span>
+                                        </div>
+                                        <div class="preset-item" data-preset="flex-sidebar">
+                                            <div class="preset-preview preset-sidebar">
+                                                <div class="preview-item sidebar-item">S</div>
+                                                <div class="preview-item main-item">M</div>
+                                            </div>
+                                            <span class="preset-name">Sidebar</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="preset-tab-content" id="grid-presets-tab">
+                                    <div class="presets-grid">
+                                        <div class="preset-item" data-preset="grid-basic">
+                                            <div class="preset-preview preset-grid-basic">
+                                                <div class="preview-item">1</div>
+                                                <div class="preview-item">2</div>
+                                                <div class="preview-item">3</div>
+                                                <div class="preview-item">4</div>
+                                            </div>
+                                            <span class="preset-name">Básico</span>
+                                        </div>
+                                        <div class="preset-item" data-preset="grid-areas">
+                                            <div class="preset-preview preset-grid-areas">
+                                                <div class="preview-item header-item">H</div>
+                                                <div class="preview-item sidebar-item">S</div>
+                                                <div class="preview-item main-item">M</div>
+                                                <div class="preview-item footer-item">F</div>
+                                            </div>
+                                            <span class="preset-name">Áreas</span>
+                                        </div>
+                                        <div class="preset-item" data-preset="grid-responsive">
+                                            <div class="preset-preview preset-grid-responsive">
+                                                <div class="preview-item">1</div>
+                                                <div class="preview-item">2</div>
+                                                <div class="preview-item">3</div>
+                                                <div class="preview-item">4</div>
+                                                <div class="preview-item">5</div>
+                                                <div class="preview-item">6</div>
+                                            </div>
+                                            <span class="preset-name">Responsivo</span>
+                                        </div>
+                                        <div class="preset-item" data-preset="grid-masonry">
+                                            <div class="preset-preview preset-grid-masonry">
+                                                <div class="preview-item">1</div>
+                                                <div class="preview-item">2</div>
+                                                <div class="preview-item">3</div>
+                                                <div class="preview-item">4</div>
+                                                <div class="preview-item">5</div>
+                                            </div>
+                                            <span class="preset-name">Masonry</span>
+                                        </div>
+                                        <div class="preset-item" data-preset="grid-mosaic">
+                                            <div class="preset-preview preset-grid-mosaic">
+                                                <div class="preview-item">1</div>
+                                                <div class="preview-item">2</div>
+                                                <div class="preview-item">3</div>
+                                                <div class="preview-item">4</div>
+                                                <div class="preview-item">5</div>
+                                            </div>
+                                            <span class="preset-name">Mosaico</span>
+                                        </div>
+                                        <div class="preset-item" data-preset="grid-holy-grail">
+                                            <div class="preset-preview preset-grid-holy-grail">
+                                                <div class="preview-item header-item">H</div>
+                                                <div class="preview-item left-item">L</div>
+                                                <div class="preview-item main-item">M</div>
+                                                <div class="preview-item right-item">R</div>
+                                                <div class="preview-item footer-item">F</div>
+                                            </div>
+                                            <span class="preset-name">Holy Grail</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Saída do código CSS -->
+                        <div class="code-output-section">
+                            <div class="code-header">
+                                <h3>Código CSS</h3>
+                                <div class="code-options">
+                                    <div class="code-format-toggle">
+                                        <button class="format-btn active" data-format="css">CSS</button>
+                                        <button class="format-btn" data-format="scss">SCSS</button>
+                                    </div>
+                                    <button id="copy-output-btn" class="tool-btn secondary">
+                                        <i class="fas fa-copy"></i> Copiar
+                                    </button>
+                                </div>
+                            </div>
+                            <pre id="css-output" class="code-output"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+
+        <!-- Modal para construtor de grid -->
+        <div id="grid-builder-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Construtor de Template Grid</h3>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="builder-type-selector">
+                        <button class="builder-type active" data-type="columns">Colunas</button>
+                        <button class="builder-type" data-type="rows">Linhas</button>
+                    </div>
+                    <div class="builder-controls">
+                        <div class="control-group">
+                            <label for="grid-unit">Unidade</label>
+                            <select id="grid-unit" class="control-select">
+                                <option value="fr">fr</option>
+                                <option value="px">px</option>
+                                <option value="%">%</option>
+                                <option value="rem">rem</option>
+                                <option value="auto">auto</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="grid-count">Quantidade</label>
+                            <input type="number" id="grid-count" class="control-input" value="3" min="1" max="12">
+                        </div>
+                        <div class="control-group">
+                            <label>Valores (arraste para ajustar)</label>
+                            <div id="grid-value-sliders" class="grid-value-sliders">
+                                <div class="slider-row">
+                                    <input type="range" min="1" max="12" value="1" class="grid-value-slider">
+                                    <span class="slider-value">1fr</span>
+                                </div>
+                                <div class="slider-row">
+                                    <input type="range" min="1" max="12" value="1" class="grid-value-slider">
+                                    <span class="slider-value">1fr</span>
+                                </div>
+                                <div class="slider-row">
+                                    <input type="range" min="1" max="12" value="1" class="grid-value-slider">
+                                    <span class="slider-value">1fr</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="template-output">Template</label>
+                            <input type="text" id="template-output" class="control-input" value="1fr 1fr 1fr" readonly>
+                        </div>
+                    </div>
+                    <div class="builder-preview">
+                        <div id="builder-preview-grid" class="builder-preview-grid">
+                            <div class="preview-col"></div>
+                            <div class="preview-col"></div>
+                            <div class="preview-col"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="apply-template" class="tool-btn primary">Aplicar</button>
+                        <button id="cancel-template" class="tool-btn secondary">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/flexbox-grid-generator.js"></script>
+</body>
+
+</html>
+```

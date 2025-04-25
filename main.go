@@ -371,6 +371,41 @@ func main() {
 			Icon:        "exchange-alt",
 			Route:       "/tools/octal-converter",
 		},
+		{
+			ID:          "regex-extractor",
+			Name:        "Regex Extractor",
+			Description: "Extraia padrões de texto usando expressões regulares",
+			Icon:        "search",
+			Route:       "/tools/regex-extractor",
+		},
+		{
+			ID:          "gradient-generator",
+			Name:        "Gerador de Gradientes CSS",
+			Description: "Crie e personalize gradientes CSS para seus projetos",
+			Icon:        "palette",
+			Route:       "/tools/gradient-generator",
+		},
+		{
+			ID:          "box-shadow-generator",
+			Name:        "Gerador de Box-Shadow CSS",
+			Description: "Crie e personalize sombras para seus elementos",
+			Icon:        "square-shadow",
+			Route:       "/tools/box-shadow-generator",
+		},
+		{
+			ID:          "border-radius-generator",
+			Name:        "Gerador de Border Radius CSS",
+			Description: "Crie bordas arredondadas personalizadas para os seus elementos",
+			Icon:        "border-radius",
+			Route:       "/tools/border-radius-generator",
+		},
+		{
+			ID:          "flexbox-grid-generator",
+			Name:        "Gerador de Flexbox/Grids CSS",
+			Description: "Crie layouts responsivos com Flexbox e CSS Grid facilmente",
+			Icon:        "grid",
+			Route:       "/tools/flexbox-grid-generator",
+		},
 	}
 
 	// Configuração para SEO (sitemap.xml e robots.txt)
@@ -765,6 +800,61 @@ func main() {
 			Theme:       "dark",
 		}
 		templateRenderer.RenderTemplate(w, "templates/octal-converter.html", data)
+	})
+
+	http.HandleFunc("/tools/regex-extractor", func(w http.ResponseWriter, r *http.Request) {
+		data := PageData{
+			Title:       "Regex Extractor | SquidCoder.dev",
+			Description: "Extraia padrões de texto usando expressões regulares",
+			Tools:       tools,
+			Theme:       "dark",
+		}
+
+		templateRenderer.RenderTemplate(w, "templates/regex-extractor.html", data)
+	})
+
+	http.HandleFunc("/tools/gradient-generator", func(w http.ResponseWriter, r *http.Request) {
+		data := PageData{
+			Title:       "Gerador de Gradientes CSS | SquidCoder.dev",
+			Description: "Crie e personalize gradientes CSS para seus projetos",
+			Tools:       tools,
+			Theme:       "dark",
+		}
+
+		templateRenderer.RenderTemplate(w, "templates/gradient-generator.html", data)
+	})
+
+	http.HandleFunc("/tools/box-shadow-generator", func(w http.ResponseWriter, r *http.Request) {
+		data := PageData{
+			Title:       "Gerador de Box-Shadow CSS | SquidCoder.dev",
+			Description: "Crie e personalize sombras para seus elementos",
+			Tools:       tools,
+			Theme:       "dark",
+		}
+
+		templateRenderer.RenderTemplate(w, "templates/box-shadow-generator.html", data)
+	})
+
+	http.HandleFunc("/tools/border-radius-generator", func(w http.ResponseWriter, r *http.Request) {
+		data := PageData{
+			Title:       "Gerador de Border Radius CSS | SquidCoder.dev",
+			Description: "Crie bordas arredondadas personalizadas para os seus elementos",
+			Tools:       tools,
+			Theme:       "dark",
+		}
+
+		templateRenderer.RenderTemplate(w, "templates/border-radius-generator.html", data)
+	})
+
+	http.HandleFunc("/tools/flexbox-grid-generator", func(w http.ResponseWriter, r *http.Request) {
+		data := PageData{
+			Title:       "Gerador de Flexbox/Grids CSS | SquidCoder.dev",
+			Description: "Crie layouts responsivos com Flexbox e CSS Grid facilmente",
+			Tools:       tools,
+			Theme:       "dark",
+		}
+
+		templateRenderer.RenderTemplate(w, "templates/flexbox-grid-generator.html", data)
 	})
 
 	// Rota para a configuração do tema

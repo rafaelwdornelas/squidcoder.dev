@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="stylesheet" href="/static/css/border-radius-generator.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="border-radius-generator">
+                <div class="tool-header">
+                    <h1 class="tool-title">Gerador de Border Radius CSS</h1>
+                    <p class="tool-description">Crie bordas arredondadas personalizadas para os seus elementos</p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="radius-container">
+                        <!-- Área de visualização -->
+                        <div class="radius-preview-column">
+                            <div class="radius-preview-wrapper">
+                                <div class="radius-preview-controls">
+                                    <div class="element-selector">
+                                        <button class="shape-option active" data-shape="square">
+                                            <i class="fas fa-square"></i>
+                                            <span>Quadrado</span>
+                                        </button>
+                                        <button class="shape-option" data-shape="rectangle">
+                                            <i class="fas fa-rectangle-wide"></i>
+                                            <span>Retângulo</span>
+                                        </button>
+                                        <button class="shape-option" data-shape="circle">
+                                            <i class="fas fa-circle"></i>
+                                            <span>Círculo</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="radius-preview-area">
+                                    <div id="element-preview" class="element-preview">
+                                        <div class="radius-handle top-left" data-corner="top-left"></div>
+                                        <div class="radius-handle top-right" data-corner="top-right"></div>
+                                        <div class="radius-handle bottom-right" data-corner="bottom-right"></div>
+                                        <div class="radius-handle bottom-left" data-corner="bottom-left"></div>
+                                    </div>
+                                </div>
+                                <div class="element-dimensions">
+                                    <div class="element-size">
+                                        <label for="element-width">Largura:</label>
+                                        <div class="size-input-group">
+                                            <input type="number" id="element-width" value="200" min="50" max="400">
+                                            <span>px</span>
+                                        </div>
+                                    </div>
+                                    <div class="element-size">
+                                        <label for="element-height">Altura:</label>
+                                        <div class="size-input-group">
+                                            <input type="number" id="element-height" value="200" min="50" max="400">
+                                            <span>px</span>
+                                        </div>
+                                    </div>
+                                    <div class="element-size">
+                                        <label for="element-color">Cor:</label>
+                                        <input type="color" id="element-color" value="#3B82F6">
+                                    </div>
+                                </div>
+                                <div class="radius-actions">
+                                    <button id="copy-css-btn" class="tool-btn primary">
+                                        <i class="fas fa-copy"></i> Copiar CSS
+                                    </button>
+                                    <button id="reset-radius-btn" class="tool-btn secondary">
+                                        <i class="fas fa-undo"></i> Resetar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Controles do border-radius -->
+                        <div class="radius-controls-column">
+                            <div class="radius-controls">
+                                <div class="control-section">
+                                    <div class="control-header">
+                                        <h3>Controles do Border Radius</h3>
+                                        <div class="radius-mode-toggle">
+                                            <span>Modo:</span>
+                                            <div class="mode-toggle">
+                                                <button id="all-corners-btn" class="mode-btn active">Todos</button>
+                                                <button id="individual-corners-btn" class="mode-btn">Individual</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div id="all-corners-control" class="radius-control-group">
+                                        <div class="control-row">
+                                            <label for="all-corners-range">Raio de todas as bordas</label>
+                                            <div class="value-display" id="all-corners-value">20px</div>
+                                        </div>
+                                        <input type="range" id="all-corners-range" min="0" max="200" value="20"
+                                            class="radius-slider">
+                                        <div class="unit-toggle">
+                                            <button class="unit-btn active" data-unit="px">px</button>
+                                            <button class="unit-btn" data-unit="%">%</button>
+                                            <button class="unit-btn" data-unit="em">em</button>
+                                            <button class="unit-btn" data-unit="rem">rem</button>
+                                        </div>
+                                    </div>
+
+                                    <div id="individual-corners-control" class="radius-control-group"
+                                        style="display: none;">
+                                        <!-- Top Left -->
+                                        <div class="corner-control">
+                                            <div class="control-row">
+                                                <label for="top-left-range">
+                                                    <i class="fas fa-circle corner-icon"></i> Superior Esquerdo
+                                                </label>
+                                                <div class="value-display" id="top-left-value">20px</div>
+                                            </div>
+                                            <input type="range" id="top-left-range" min="0" max="200" value="20"
+                                                class="radius-slider" data-corner="top-left">
+                                        </div>
+
+                                        <!-- Top Right -->
+                                        <div class="corner-control">
+                                            <div class="control-row">
+                                                <label for="top-right-range">
+                                                    <i class="fas fa-circle corner-icon"></i> Superior Direito
+                                                </label>
+                                                <div class="value-display" id="top-right-value">20px</div>
+                                            </div>
+                                            <input type="range" id="top-right-range" min="0" max="200" value="20"
+                                                class="radius-slider" data-corner="top-right">
+                                        </div>
+
+                                        <!-- Bottom Right -->
+                                        <div class="corner-control">
+                                            <div class="control-row">
+                                                <label for="bottom-right-range">
+                                                    <i class="fas fa-circle corner-icon"></i> Inferior Direito
+                                                </label>
+                                                <div class="value-display" id="bottom-right-value">20px</div>
+                                            </div>
+                                            <input type="range" id="bottom-right-range" min="0" max="200" value="20"
+                                                class="radius-slider" data-corner="bottom-right">
+                                        </div>
+
+                                        <!-- Bottom Left -->
+                                        <div class="corner-control">
+                                            <div class="control-row">
+                                                <label for="bottom-left-range">
+                                                    <i class="fas fa-circle corner-icon"></i> Inferior Esquerdo
+                                                </label>
+                                                <div class="value-display" id="bottom-left-value">20px</div>
+                                            </div>
+                                            <input type="range" id="bottom-left-range" min="0" max="200" value="20"
+                                                class="radius-slider" data-corner="bottom-left">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="control-section">
+                                    <h3>Formato Avançado</h3>
+                                    <div class="advanced-controls">
+                                        <div class="control-option">
+                                            <label class="checkbox-container">
+                                                <input type="checkbox" id="enable-elliptical">
+                                                <span class="checkbox-label">Habilitar raio elíptico</span>
+                                            </label>
+                                        </div>
+
+                                        <div id="elliptical-controls" class="elliptical-controls"
+                                            style="display: none;">
+                                            <p class="control-description">Defina os raios horizontal e vertical para
+                                                cada canto</p>
+
+                                            <div class="elliptical-corners">
+                                                <!-- Top Left -->
+                                                <div class="elliptical-corner">
+                                                    <div class="corner-label">Superior Esquerdo</div>
+                                                    <div class="elliptical-inputs">
+                                                        <div class="elliptical-input">
+                                                            <label>H:</label>
+                                                            <input type="number" id="top-left-h" value="20" min="0"
+                                                                max="200" class="elliptical-value">
+                                                        </div>
+                                                        <div class="elliptical-input">
+                                                            <label>V:</label>
+                                                            <input type="number" id="top-left-v" value="20" min="0"
+                                                                max="200" class="elliptical-value">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Top Right -->
+                                                <div class="elliptical-corner">
+                                                    <div class="corner-label">Superior Direito</div>
+                                                    <div class="elliptical-inputs">
+                                                        <div class="elliptical-input">
+                                                            <label>H:</label>
+                                                            <input type="number" id="top-right-h" value="20" min="0"
+                                                                max="200" class="elliptical-value">
+                                                        </div>
+                                                        <div class="elliptical-input">
+                                                            <label>V:</label>
+                                                            <input type="number" id="top-right-v" value="20" min="0"
+                                                                max="200" class="elliptical-value">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Bottom Right -->
+                                                <div class="elliptical-corner">
+                                                    <div class="corner-label">Inferior Direito</div>
+                                                    <div class="elliptical-inputs">
+                                                        <div class="elliptical-input">
+                                                            <label>H:</label>
+                                                            <input type="number" id="bottom-right-h" value="20" min="0"
+                                                                max="200" class="elliptical-value">
+                                                        </div>
+                                                        <div class="elliptical-input">
+                                                            <label>V:</label>
+                                                            <input type="number" id="bottom-right-v" value="20" min="0"
+                                                                max="200" class="elliptical-value">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Bottom Left -->
+                                                <div class="elliptical-corner">
+                                                    <div class="corner-label">Inferior Esquerdo</div>
+                                                    <div class="elliptical-inputs">
+                                                        <div class="elliptical-input">
+                                                            <label>H:</label>
+                                                            <input type="number" id="bottom-left-h" value="20" min="0"
+                                                                max="200" class="elliptical-value">
+                                                        </div>
+                                                        <div class="elliptical-input">
+                                                            <label>V:</label>
+                                                            <input type="number" id="bottom-left-v" value="20" min="0"
+                                                                max="200" class="elliptical-value">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Presets de border-radius -->
+                        <div class="radius-presets">
+                            <h3>Presets Populares</h3>
+                            <div class="presets-grid">
+                                <div class="preset-item" data-preset="rounded">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Arredondado</span>
+                                </div>
+                                <div class="preset-item" data-preset="pill">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Pílula</span>
+                                </div>
+                                <div class="preset-item" data-preset="circle">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Círculo</span>
+                                </div>
+                                <div class="preset-item" data-preset="top-corners">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Topo</span>
+                                </div>
+                                <div class="preset-item" data-preset="bottom-corners">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Base</span>
+                                </div>
+                                <div class="preset-item" data-preset="left-corners">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Esquerda</span>
+                                </div>
+                                <div class="preset-item" data-preset="right-corners">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Direita</span>
+                                </div>
+                                <div class="preset-item" data-preset="diagonal">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Diagonal</span>
+                                </div>
+                                <div class="preset-item" data-preset="wave">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Onda</span>
+                                </div>
+                                <div class="preset-item" data-preset="fancy">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Elegante</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Saída do código CSS -->
+                        <div class="code-output-section">
+                            <div class="code-header">
+                                <h3>Código CSS</h3>
+                                <div class="code-options">
+                                    <div class="code-format-toggle">
+                                        <button class="format-btn active" data-format="shorthand">Curto</button>
+                                        <button class="format-btn" data-format="longhand">Completo</button>
+                                    </div>
+                                    <button id="copy-output-btn" class="tool-btn secondary">
+                                        <i class="fas fa-copy"></i> Copiar
+                                    </button>
+                                </div>
+                            </div>
+                            <pre id="css-output" class="code-output"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/border-radius-generator.js"></script>
+</body>
+
+</html>

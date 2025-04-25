@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="{{.Theme}}">
+
+<head>
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <meta name="description" content="{{.Description}}">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/themes.css">
+    <link rel="stylesheet" href="/static/css/box-shadow-generator.css">
+    <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Incluir header -->
+        {{include "header"}}
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="tool-container" id="box-shadow-generator">
+                <div class="tool-header">
+                    <h1 class="tool-title">Gerador de Box-Shadow CSS</h1>
+                    <p class="tool-description">Crie e personalize sombras para seus elementos</p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="shadow-container">
+                        <!-- Área de visualização do elemento -->
+                        <div class="shadow-preview-wrapper">
+                            <div class="shadow-preview-controls">
+                                <div class="background-selector">
+                                    <label>Fundo:</label>
+                                    <div class="background-option active" data-bg="light"></div>
+                                    <div class="background-option" data-bg="dark"></div>
+                                    <div class="background-option" data-bg="gradient"></div>
+                                    <div class="background-option" data-bg="pattern"></div>
+                                </div>
+                                <div class="element-selector">
+                                    <label>Elemento:</label>
+                                    <div class="shape-option active" data-shape="square">
+                                        <i class="fas fa-square"></i>
+                                    </div>
+                                    <div class="shape-option" data-shape="rounded">
+                                        <i class="fas fa-square" style="border-radius: 10px;"></i>
+                                    </div>
+                                    <div class="shape-option" data-shape="circle">
+                                        <i class="fas fa-circle"></i>
+                                    </div>
+                                    <div class="shape-option" data-shape="custom">
+                                        <i class="fas fa-shapes"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="shadow-preview-area">
+                                <div id="shadow-element" class="shadow-element"></div>
+                            </div>
+                            <div class="shadow-actions">
+                                <button id="copy-css-btn" class="tool-btn primary">
+                                    <i class="fas fa-copy"></i> Copiar CSS
+                                </button>
+                                <button id="save-preset-btn" class="tool-btn secondary">
+                                    <i class="fas fa-save"></i> Salvar Preset
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Controles da sombra -->
+                        <div class="shadow-controls">
+                            <div class="control-tabs">
+                                <div class="control-tab active" data-tab="basic">
+                                    <i class="fas fa-sliders-h"></i> Básico
+                                </div>
+                                <div class="control-tab" data-tab="advanced">
+                                    <i class="fas fa-cogs"></i> Avançado
+                                </div>
+                                <div class="control-tab" data-tab="layers">
+                                    <i class="fas fa-layer-group"></i> Camadas
+                                </div>
+                            </div>
+
+                            <!-- Controles básicos -->
+                            <div class="control-panel active" id="basic-controls">
+                                <div class="control-group">
+                                    <label for="offset-x">Deslocamento Horizontal</label>
+                                    <div class="slider-container">
+                                        <input type="range" id="offset-x" min="-50" max="50" value="5"
+                                            class="range-slider">
+                                        <div class="range-value">
+                                            <input type="number" id="offset-x-value" min="-50" max="50" value="5"> px
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="offset-y">Deslocamento Vertical</label>
+                                    <div class="slider-container">
+                                        <input type="range" id="offset-y" min="-50" max="50" value="5"
+                                            class="range-slider">
+                                        <div class="range-value">
+                                            <input type="number" id="offset-y-value" min="-50" max="50" value="5"> px
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="blur-radius">Raio de Desfoque</label>
+                                    <div class="slider-container">
+                                        <input type="range" id="blur-radius" min="0" max="100" value="10"
+                                            class="range-slider">
+                                        <div class="range-value">
+                                            <input type="number" id="blur-radius-value" min="0" max="100" value="10"> px
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="spread-radius">Raio de Propagação</label>
+                                    <div class="slider-container">
+                                        <input type="range" id="spread-radius" min="-50" max="50" value="0"
+                                            class="range-slider">
+                                        <div class="range-value">
+                                            <input type="number" id="spread-radius-value" min="-50" max="50" value="0">
+                                            px
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="color-opacity-group">
+                                    <div class="control-group">
+                                        <label for="shadow-color">Cor da Sombra</label>
+                                        <div class="color-picker-container">
+                                            <input type="color" id="shadow-color" value="#000000">
+                                        </div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <label for="shadow-opacity">Opacidade</label>
+                                        <div class="slider-container">
+                                            <input type="range" id="shadow-opacity" min="0" max="1" value="0.2"
+                                                step="0.01" class="range-slider">
+                                            <div class="range-value">
+                                                <input type="number" id="shadow-opacity-value" min="0" max="1"
+                                                    value="0.2" step="0.01">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="control-option">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" id="inset-shadow">
+                                        <span class="checkbox-label">Sombra Interna (inset)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Controles avançados -->
+                            <div class="control-panel" id="advanced-controls">
+                                <div class="control-group">
+                                    <label for="element-color">Cor do Elemento</label>
+                                    <div class="color-picker-container">
+                                        <input type="color" id="element-color" value="#ffffff">
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="element-size">Tamanho do Elemento</label>
+                                    <div class="slider-container">
+                                        <input type="range" id="element-size" min="50" max="300" value="150"
+                                            class="range-slider">
+                                        <div class="range-value">
+                                            <input type="number" id="element-size-value" min="50" max="300" value="150">
+                                            px
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="control-group" id="border-radius-control">
+                                    <label for="border-radius">Raio da Borda</label>
+                                    <div class="slider-container">
+                                        <input type="range" id="border-radius" min="0" max="150" value="0"
+                                            class="range-slider">
+                                        <div class="range-value">
+                                            <input type="number" id="border-radius-value" min="0" max="150" value="0">
+                                            px
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label for="element-rotation">Rotação do Elemento</label>
+                                    <div class="slider-container">
+                                        <input type="range" id="element-rotation" min="0" max="360" value="0"
+                                            class="range-slider">
+                                        <div class="range-value">
+                                            <input type="number" id="element-rotation-value" min="0" max="360"
+                                                value="0">°
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="control-option">
+                                    <label class="checkbox-container">
+                                        <input type="checkbox" id="show-dimensions">
+                                        <span class="checkbox-label">Mostrar Dimensões</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Gerenciamento de camadas -->
+                            <div class="control-panel" id="layers-controls">
+                                <div class="layers-container">
+                                    <div class="layers-header">
+                                        <h3>Camadas de Sombra</h3>
+                                        <button id="add-layer-btn" class="action-btn">
+                                            <i class="fas fa-plus"></i> Adicionar Camada
+                                        </button>
+                                    </div>
+                                    <div class="layers-list" id="shadow-layers">
+                                        <div class="layer-item active" data-layer="0">
+                                            <div class="layer-preview"></div>
+                                            <div class="layer-name">Camada 1</div>
+                                            <div class="layer-actions">
+                                                <button class="layer-action duplicate-layer" title="Duplicar">
+                                                    <i class="fas fa-copy"></i>
+                                                </button>
+                                                <button class="layer-action delete-layer" title="Excluir">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Presets de sombras -->
+                        <div class="shadow-presets">
+                            <h3>Presets Populares</h3>
+                            <div class="presets-grid">
+                                <div class="preset-item" data-preset="subtle">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Sutil</span>
+                                </div>
+                                <div class="preset-item" data-preset="medium">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Médio</span>
+                                </div>
+                                <div class="preset-item" data-preset="hard">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Forte</span>
+                                </div>
+                                <div class="preset-item" data-preset="layered">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Camadas</span>
+                                </div>
+                                <div class="preset-item" data-preset="inset">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Interno</span>
+                                </div>
+                                <div class="preset-item" data-preset="float">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Flutuante</span>
+                                </div>
+                                <div class="preset-item" data-preset="neon">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Neon</span>
+                                </div>
+                                <div class="preset-item" data-preset="emboss">
+                                    <div class="preset-preview"></div>
+                                    <span class="preset-name">Relevo</span>
+                                </div>
+                                <div class="preset-item custom-preset-btn" id="load-custom-presets">
+                                    <i class="fas fa-bookmark"></i>
+                                    <span>Meus Presets</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Saída do código CSS -->
+                        <div class="code-output-section">
+                            <div class="code-header">
+                                <h3>Código CSS</h3>
+                                <button id="copy-output-btn" class="tool-btn secondary">
+                                    <i class="fas fa-copy"></i> Copiar
+                                </button>
+                            </div>
+                            <pre id="css-output" class="code-output"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Incluir footer -->
+        {{include "footer"}}
+
+        <!-- Modal para salvar presets -->
+        <div id="preset-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Salvar Preset</h3>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="preset-name">Nome do Preset</label>
+                        <input type="text" id="preset-name" placeholder="Digite um nome para o seu preset...">
+                    </div>
+                    <div class="modal-footer">
+                        <button id="save-preset-confirm" class="tool-btn primary">Salvar</button>
+                        <button id="cancel-preset" class="tool-btn secondary">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para carregar presets personalizados -->
+        <div id="custom-presets-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Meus Presets Salvos</h3>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div id="custom-presets-container" class="custom-presets-container">
+                        <div class="empty-presets-message">
+                            <i class="fas fa-info-circle"></i>
+                            <p>Você ainda não salvou nenhum preset personalizado.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carrega JavaScript comum e específico para esta ferramenta -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/box-shadow-generator.js"></script>
+</body>
+
+</html>
