@@ -8,11 +8,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{.Title}}</title>
     <meta name="description" content="{{.Description}}">
+    <meta name="keywords" content="{{.Keywords}}">
+    <link rel="canonical" href="{{.Canonical}}">
+    <meta property="og:url" content="{{.Canonical}}">
+    <meta property="og:image" content="{{.ImageURL}}">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{.Title}}">
+    <meta name="twitter:description" content="{{.Description}}">
+    <meta name="twitter:image" content="{{.ImageURL}}">
+    <meta name="date" content="{{.PublishedDate}}">
+    <meta name="revised" content="{{.ModifiedDate}}">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/themes.css">
     <link rel="stylesheet" href="/static/css/border-radius-generator.css">
     <link rel="icon" href="/static/img/logo.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        media="print" onload="this.media='all'">
 </head>
 
 <body>

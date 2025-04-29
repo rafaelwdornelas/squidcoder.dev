@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"squidcoder/internal/handlers"
+	"squidcoder/internal/generateimage"
 	"squidcoder/internal/seo"
 	"strings"
 	"time"
@@ -22,14 +22,26 @@ type Tool struct {
 	Description string
 	Icon        string
 	Route       string
+	Keywords    string   // Palavras-chave específicas da ferramenta
+	ImageURL    string   // URL da imagem para compartilhamento
+	Category    string   // Categoria da ferramenta (codificação, formatação, etc.)
+	RelatedIDs  []string // IDs de ferramentas relacionadas
 }
 
 // PageData contém os dados para renderizar as páginas
 type PageData struct {
-	Title       string
-	Description string
-	Tools       []Tool
-	Theme       string
+	Title         string
+	Description   string
+	Tools         []Tool
+	Theme         string
+	Canonical     string // URL canônica da página
+	Keywords      string // Palavras-chave relevantes
+	ImageURL      string // URL da imagem de compartilhamento
+	PublishedDate string // Data de publicação
+	ModifiedDate  string // Data de última modificação
+	CurrentTool   *Tool  // Ferramenta atual (se estiver em uma página de ferramenta)
+	RelatedTools  []Tool // Ferramentas relacionadas
+	BaseURL       string // URL base do site
 }
 
 // TemplateRenderer gerencia a renderização de templates
@@ -81,6 +93,9 @@ func SecurityHeaders(next http.Handler) http.Handler {
 		w.Header().Set("Permissions-Policy", "geolocation=(), microphone=(), camera=()")
 		w.Header().Set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload")
 		w.Header().Set("X-Frame-Options", "SAMEORIGIN")
+
+		// Adicione precarregamento para recursos críticos
+		w.Header().Set("Link", "</static/css/style.css>; rel=preload; as=style, </static/img/logo.svg>; rel=preload; as=image")
 
 		next.ServeHTTP(w, r)
 	})
@@ -151,6 +166,9 @@ func (tr *TemplateRenderer) RenderTemplate(w http.ResponseWriter, templatePath s
 }
 
 func main() {
+	// URL base do site
+	baseURL := "https://squidcoder.dev"
+
 	// Lista de ferramentas
 	tools := []Tool{
 		{
@@ -159,6 +177,10 @@ func main() {
 			Description: "Formate, valide e visualize JSON facilmente",
 			Icon:        "code",
 			Route:       "/tools/json-formatter",
+			Keywords:    "formatador json, validador json, editor json, parser json, json beautifier, pretty json",
+			ImageURL:    baseURL + "/static/img/tools/json-formatter.png",
+			Category:    "formatação",
+			RelatedIDs:  []string{"csv-json-converter"},
 		},
 		{
 			ID:          "color-picker",
@@ -166,6 +188,10 @@ func main() {
 			Description: "Selecione e converta cores entre diferentes formatos",
 			Icon:        "palette",
 			Route:       "/tools/color-picker",
+			Keywords:    "seletor de cores, conversor cores, cores hex, cores rgb, paleta cores, color picker",
+			ImageURL:    baseURL + "/static/img/tools/color-picker.png",
+			Category:    "design",
+			RelatedIDs:  []string{"gradient-generator"},
 		},
 		{
 			ID:          "markdown-editor",
@@ -173,6 +199,10 @@ func main() {
 			Description: "Edite e visualize markdown em tempo real",
 			Icon:        "file-alt",
 			Route:       "/tools/markdown-editor",
+			Keywords:    "editor markdown, visualizador markdown, preview markdown, formatador texto, markdown online",
+			ImageURL:    baseURL + "/static/img/tools/markdown-editor.png",
+			Category:    "texto",
+			RelatedIDs:  []string{"text-case-converter"},
 		},
 		{
 			ID:          "dns-checker",
@@ -180,14 +210,21 @@ func main() {
 			Description: "Verifique a propagação de DNS em vários servidores pelo mundo",
 			Icon:        "network-wired",
 			Route:       "/tools/dns-checker",
+			Keywords:    "verificador dns, propagação dns, consulta dns, servidores dns, dns lookup",
+			ImageURL:    baseURL + "/static/img/tools/dns-checker.png",
+			Category:    "rede",
+			RelatedIDs:  []string{},
 		},
-		// Adicionar as novas ferramentas abaixo
 		{
 			ID:          "base64-decoder",
 			Name:        "Decodificador Base64",
 			Description: "Decodifique texto em Base64 para seu formato original",
 			Icon:        "exchange-alt",
 			Route:       "/tools/base64-decoder",
+			Keywords:    "decoder base64, decodificador base64, converter base64, base64 para texto",
+			ImageURL:    baseURL + "/static/img/tools/base64-decoder.png",
+			Category:    "codificação",
+			RelatedIDs:  []string{"base64-encoder"},
 		},
 		{
 			ID:          "base64-encoder",
@@ -195,6 +232,10 @@ func main() {
 			Description: "Codifique texto para formato Base64",
 			Icon:        "exchange-alt",
 			Route:       "/tools/base64-encoder",
+			Keywords:    "encoder base64, codificador base64, converter para base64, texto para base64",
+			ImageURL:    baseURL + "/static/img/tools/base64-encoder.png",
+			Category:    "codificação",
+			RelatedIDs:  []string{"base64-decoder"},
 		},
 		{
 			ID:          "hex-decoder",
@@ -202,6 +243,10 @@ func main() {
 			Description: "Decodifique texto em formato hexadecimal para seu formato original",
 			Icon:        "exchange-alt",
 			Route:       "/tools/hex-decoder",
+			Keywords:    "decodificador hex, hexadecimal converter, hex to text, conversor hexadecimal",
+			ImageURL:    baseURL + "/static/img/tools/hex-decoder.png",
+			Category:    "codificação",
+			RelatedIDs:  []string{"hex-encoder"},
 		},
 		{
 			ID:          "hex-encoder",
@@ -209,6 +254,10 @@ func main() {
 			Description: "Codifique texto para formato hexadecimal",
 			Icon:        "exchange-alt",
 			Route:       "/tools/hex-encoder",
+			Keywords:    "codificador hex, texto para hexadecimal, text to hex, converter para hexadecimal",
+			ImageURL:    baseURL + "/static/img/tools/hex-encoder.png",
+			Category:    "codificação",
+			RelatedIDs:  []string{"hex-decoder"},
 		},
 		{
 			ID:          "url-decoder",
@@ -216,6 +265,10 @@ func main() {
 			Description: "Decodifique texto codificado em URL para formato legível",
 			Icon:        "link",
 			Route:       "/tools/url-decoder",
+			Keywords:    "decodificador url, url decode, converter url encoded, url encoding remover",
+			ImageURL:    baseURL + "/static/img/tools/url-decoder.png",
+			Category:    "codificação",
+			RelatedIDs:  []string{"url-encoder"},
 		},
 		{
 			ID:          "url-encoder",
@@ -223,6 +276,10 @@ func main() {
 			Description: "Codifique texto para formato seguro para URLs",
 			Icon:        "link",
 			Route:       "/tools/url-encoder",
+			Keywords:    "codificador url, url encode, converter para url, url encoding",
+			ImageURL:    baseURL + "/static/img/tools/url-encoder.png",
+			Category:    "codificação",
+			RelatedIDs:  []string{"url-decoder"},
 		},
 		{
 			ID:          "html-decoder",
@@ -230,6 +287,10 @@ func main() {
 			Description: "Converta entidades HTML para caracteres normais",
 			Icon:        "code",
 			Route:       "/tools/html-decoder",
+			Keywords:    "decodificador html, html entities converter, html decode, converter entidades html",
+			ImageURL:    baseURL + "/static/img/tools/html-decoder.png",
+			Category:    "codificação",
+			RelatedIDs:  []string{"html-encoder"},
 		},
 		{
 			ID:          "html-encoder",
@@ -237,6 +298,10 @@ func main() {
 			Description: "Converta caracteres para entidades HTML",
 			Icon:        "code",
 			Route:       "/tools/html-encoder",
+			Keywords:    "codificador html, converter para entidades html, html entities, html encode",
+			ImageURL:    baseURL + "/static/img/tools/html-encoder.png",
+			Category:    "codificação",
+			RelatedIDs:  []string{"html-decoder"},
 		},
 		{
 			ID:          "quoted-printable-decoder",
@@ -244,6 +309,10 @@ func main() {
 			Description: "Converta texto em formato Quoted-Printable para texto normal",
 			Icon:        "quote-left",
 			Route:       "/tools/quoted-printable-decoder",
+			Keywords:    "decodificador quoted-printable, converter quoted-printable, quoted printable decode",
+			ImageURL:    baseURL + "/static/img/tools/quoted-printable-decoder.png",
+			Category:    "codificação",
+			RelatedIDs:  []string{"quoted-printable-encoder"},
 		},
 		{
 			ID:          "quoted-printable-encoder",
@@ -251,6 +320,10 @@ func main() {
 			Description: "Converta texto normal para formato Quoted-Printable",
 			Icon:        "quote-right",
 			Route:       "/tools/quoted-printable-encoder",
+			Keywords:    "codificador quoted-printable, converter para quoted-printable, quoted printable encode",
+			ImageURL:    baseURL + "/static/img/tools/quoted-printable-encoder.png",
+			Category:    "codificação",
+			RelatedIDs:  []string{"quoted-printable-decoder"},
 		},
 		{
 			ID:          "email-extractor",
@@ -258,6 +331,10 @@ func main() {
 			Description: "Extraia todos os endereços de email de um texto",
 			Icon:        "at",
 			Route:       "/tools/email-extractor",
+			Keywords:    "extrator email, extrair emails de texto, encontrar emails, coletar emails",
+			ImageURL:    baseURL + "/static/img/tools/email-extractor.png",
+			Category:    "texto",
+			RelatedIDs:  []string{"regex-extractor"},
 		},
 		{
 			ID:          "remove-duplicates",
@@ -265,6 +342,10 @@ func main() {
 			Description: "Remova linhas duplicadas de uma lista de texto",
 			Icon:        "clone",
 			Route:       "/tools/remove-duplicates",
+			Keywords:    "remover duplicatas, eliminar linhas repetidas, remover duplicados, linhas únicas",
+			ImageURL:    baseURL + "/static/img/tools/remove-duplicates.png",
+			Category:    "texto",
+			RelatedIDs:  []string{"list-sorter"},
 		},
 		{
 			ID:          "list-sorter",
@@ -272,6 +353,10 @@ func main() {
 			Description: "Ordene uma lista de texto alfabética ou numericamente",
 			Icon:        "sort-alpha-down",
 			Route:       "/tools/list-sorter",
+			Keywords:    "ordenador de listas, ordenar texto, classificar linhas, ordenar alfabeticamente",
+			ImageURL:    baseURL + "/static/img/tools/list-sorter.png",
+			Category:    "texto",
+			RelatedIDs:  []string{"remove-duplicates", "list-randomizer"},
 		},
 		{
 			ID:          "list-randomizer",
@@ -279,6 +364,10 @@ func main() {
 			Description: "Embaralhe uma lista de texto de forma aleatória",
 			Icon:        "random",
 			Route:       "/tools/list-randomizer",
+			Keywords:    "randomizador listas, embaralhar texto, aleatorizar linhas, shuffle lista",
+			ImageURL:    baseURL + "/static/img/tools/list-randomizer.png",
+			Category:    "texto",
+			RelatedIDs:  []string{"list-sorter"},
 		},
 		{
 			ID:          "hash-generator",
@@ -286,6 +375,10 @@ func main() {
 			Description: "Gere hashes MD5, SHA-1, SHA-256 e outros para verificar integridade de dados",
 			Icon:        "key",
 			Route:       "/tools/hash-generator",
+			Keywords:    "gerador hash, md5 generator, sha1, sha256, hash calculator, verificação integridade",
+			ImageURL:    baseURL + "/static/img/tools/hash-generator.png",
+			Category:    "segurança",
+			RelatedIDs:  []string{"password-generator"},
 		},
 		{
 			ID:          "jwt-decoder",
@@ -293,6 +386,10 @@ func main() {
 			Description: "Decodifique tokens JWT (JSON Web Token) e visualize payload e cabeçalhos",
 			Icon:        "unlock-alt",
 			Route:       "/tools/jwt-decoder",
+			Keywords:    "decodificador jwt, jwt decode, json web token, token jwt, visualizador jwt",
+			ImageURL:    baseURL + "/static/img/tools/jwt-decoder.png",
+			Category:    "segurança",
+			RelatedIDs:  []string{"json-formatter"},
 		},
 		{
 			ID:          "text-case-converter",
@@ -300,6 +397,10 @@ func main() {
 			Description: "Converta texto para MAIÚSCULAS, minúsculas, Capitalizado, e invertido",
 			Icon:        "font",
 			Route:       "/tools/text-case-converter",
+			Keywords:    "conversor caixa alta baixa, maiúsculas minúsculas, capitalizar texto, inverter caixa",
+			ImageURL:    baseURL + "/static/img/tools/text-case-converter.png",
+			Category:    "texto",
+			RelatedIDs:  []string{"markdown-editor"},
 		},
 		{
 			ID:          "csv-json-converter",
@@ -307,6 +408,10 @@ func main() {
 			Description: "Converta dados entre formatos CSV e JSON facilmente",
 			Icon:        "exchange-alt",
 			Route:       "/tools/csv-json-converter",
+			Keywords:    "conversor csv json, csv para json, json para csv, converter dados tabulares",
+			ImageURL:    baseURL + "/static/img/tools/csv-json-converter.png",
+			Category:    "dados",
+			RelatedIDs:  []string{"json-formatter"},
 		},
 		{
 			ID:          "unit-converter",
@@ -314,6 +419,10 @@ func main() {
 			Description: "Converta entre diferentes unidades de temperatura, peso, volume e distância",
 			Icon:        "exchange-alt",
 			Route:       "/tools/unit-converter",
+			Keywords:    "conversor unidades, converter temperatura, converter peso, converter distância, medidas",
+			ImageURL:    baseURL + "/static/img/tools/unit-converter.png",
+			Category:    "cálculos",
+			RelatedIDs:  []string{"date-diff-calculator"},
 		},
 		{
 			ID:          "date-diff-calculator",
@@ -321,6 +430,10 @@ func main() {
 			Description: "Calcule a diferença em dias, semanas, meses e anos entre duas datas",
 			Icon:        "calendar-alt",
 			Route:       "/tools/date-diff-calculator",
+			Keywords:    "calculadora datas, diferença entre datas, dias entre datas, intervalo data",
+			ImageURL:    baseURL + "/static/img/tools/date-diff-calculator.png",
+			Category:    "cálculos",
+			RelatedIDs:  []string{"unit-converter"},
 		},
 		{
 			ID:          "cpf-cnpj-validator",
@@ -328,6 +441,10 @@ func main() {
 			Description: "Crie CPFs e CNPJs válidos ou verifique a validade de um número existente",
 			Icon:        "id-card",
 			Route:       "/tools/cpf-cnpj-validator",
+			Keywords:    "validador cpf cnpj, verificar cpf, verificar cnpj, gerador cpf, gerador cnpj",
+			ImageURL:    baseURL + "/static/img/tools/cpf-cnpj-validator.png",
+			Category:    "dados",
+			RelatedIDs:  []string{"uuid-generator"},
 		},
 		{
 			ID:          "uuid-generator",
@@ -335,6 +452,10 @@ func main() {
 			Description: "Gere identificadores únicos universais (UUIDs) em diferentes versões",
 			Icon:        "fingerprint",
 			Route:       "/tools/uuid-generator",
+			Keywords:    "gerador uuid, uuid v4, uuid v1, guid, identificador único, uuid generator",
+			ImageURL:    baseURL + "/static/img/tools/uuid-generator.png",
+			Category:    "dados",
+			RelatedIDs:  []string{"cpf-cnpj-validator"},
 		},
 		{
 			ID:          "password-generator",
@@ -342,6 +463,10 @@ func main() {
 			Description: "Crie senhas fortes e seguras para suas contas online",
 			Icon:        "key",
 			Route:       "/tools/password-generator",
+			Keywords:    "gerador senha, senhas seguras, senha forte, criar senha, password generator",
+			ImageURL:    baseURL + "/static/img/tools/password-generator.png",
+			Category:    "segurança",
+			RelatedIDs:  []string{"password-strength-analyzer"},
 		},
 		{
 			ID:          "password-strength-analyzer",
@@ -349,6 +474,10 @@ func main() {
 			Description: "Verifique a força e segurança de suas senhas",
 			Icon:        "shield-alt",
 			Route:       "/tools/password-strength-analyzer",
+			Keywords:    "analisador senha, verificar força senha, segurança senha, password strength",
+			ImageURL:    baseURL + "/static/img/tools/password-strength-analyzer.png",
+			Category:    "segurança",
+			RelatedIDs:  []string{"password-generator"},
 		},
 		{
 			ID:          "ascii-converter",
@@ -356,6 +485,10 @@ func main() {
 			Description: "Converta texto para códigos ASCII e vice-versa",
 			Icon:        "font",
 			Route:       "/tools/ascii-converter",
+			Keywords:    "conversor ascii, texto para ascii, ascii para texto, códigos ascii, tabela ascii",
+			ImageURL:    baseURL + "/static/img/tools/ascii-converter.png",
+			Category:    "codificação",
+			RelatedIDs:  []string{"unicode-converter", "octal-converter"},
 		},
 		{
 			ID:          "unicode-converter",
@@ -363,6 +496,10 @@ func main() {
 			Description: "Converta texto para códigos Unicode e vice-versa",
 			Icon:        "globe",
 			Route:       "/tools/unicode-converter",
+			Keywords:    "conversor unicode, texto para unicode, unicode para texto, códigos unicode",
+			ImageURL:    baseURL + "/static/img/tools/unicode-converter.png",
+			Category:    "codificação",
+			RelatedIDs:  []string{"ascii-converter", "octal-converter"},
 		},
 		{
 			ID:          "octal-converter",
@@ -370,6 +507,10 @@ func main() {
 			Description: "Converta texto para códigos octais e vice-versa",
 			Icon:        "exchange-alt",
 			Route:       "/tools/octal-converter",
+			Keywords:    "conversor octal, texto para octal, octal para texto, códigos octais, sistema octal",
+			ImageURL:    baseURL + "/static/img/tools/octal-converter.png",
+			Category:    "codificação",
+			RelatedIDs:  []string{"ascii-converter", "unicode-converter"},
 		},
 		{
 			ID:          "regex-extractor",
@@ -377,6 +518,10 @@ func main() {
 			Description: "Extraia padrões de texto usando expressões regulares",
 			Icon:        "search",
 			Route:       "/tools/regex-extractor",
+			Keywords:    "extrator regex, expressões regulares, extrair padrões, regex matcher, regex tester",
+			ImageURL:    baseURL + "/static/img/tools/regex-extractor.png",
+			Category:    "texto",
+			RelatedIDs:  []string{"email-extractor"},
 		},
 		{
 			ID:          "gradient-generator",
@@ -384,6 +529,10 @@ func main() {
 			Description: "Crie e personalize gradientes CSS para seus projetos",
 			Icon:        "palette",
 			Route:       "/tools/gradient-generator",
+			Keywords:    "gerador gradiente, css gradient, gradiente linear, gradiente radial, gradiente css",
+			ImageURL:    baseURL + "/static/img/tools/gradient-generator.png",
+			Category:    "design",
+			RelatedIDs:  []string{"color-picker", "box-shadow-generator", "border-radius-generator"},
 		},
 		{
 			ID:          "box-shadow-generator",
@@ -391,6 +540,10 @@ func main() {
 			Description: "Crie e personalize sombras para seus elementos",
 			Icon:        "square-shadow",
 			Route:       "/tools/box-shadow-generator",
+			Keywords:    "gerador box-shadow, css sombra, box shadow css, sombra elemento, shadow generator",
+			ImageURL:    baseURL + "/static/img/tools/box-shadow-generator.png",
+			Category:    "design",
+			RelatedIDs:  []string{"gradient-generator", "border-radius-generator"},
 		},
 		{
 			ID:          "border-radius-generator",
@@ -398,6 +551,10 @@ func main() {
 			Description: "Crie bordas arredondadas personalizadas para os seus elementos",
 			Icon:        "border-radius",
 			Route:       "/tools/border-radius-generator",
+			Keywords:    "gerador border-radius, cantos arredondados css, bordas arredondadas, radius css",
+			ImageURL:    baseURL + "/static/img/tools/border-radius-generator.png",
+			Category:    "design",
+			RelatedIDs:  []string{"box-shadow-generator", "gradient-generator"},
 		},
 		{
 			ID:          "flexbox-grid-generator",
@@ -405,11 +562,32 @@ func main() {
 			Description: "Crie layouts responsivos com Flexbox e CSS Grid facilmente",
 			Icon:        "grid",
 			Route:       "/tools/flexbox-grid-generator",
+			Keywords:    "gerador flexbox, css grid generator, layout responsive, flexbox playground, grid css",
+			ImageURL:    baseURL + "/static/img/tools/flexbox-grid-generator.png",
+			Category:    "design",
+			RelatedIDs:  []string{"gradient-generator", "box-shadow-generator", "border-radius-generator"},
 		},
 	}
 
+	// Verificar e gerar imagens para as ferramentas
+	staticDir := "static"
+	var toolImages []generateimage.Tool
+
+	// Converter as ferramentas para o formato do gerador de imagens
+	for _, tool := range tools {
+		toolImages = append(toolImages, generateimage.CreateToolImageData(
+			tool.ID,
+			tool.Name,
+			tool.Description,
+			tool.Category,
+			tool.Icon,
+		))
+	}
+
+	// Gerar as imagens
+	generateimage.GenerateAllToolImages(toolImages, staticDir)
+
 	// Configuração para SEO (sitemap.xml e robots.txt)
-	baseURL := "https://squidcoder.dev" // Substitua pelo seu domínio real
 	seoConfig := seo.Config{
 		BaseURL:    baseURL,
 		LastMod:    time.Now(),
@@ -437,10 +615,15 @@ func main() {
 		}
 
 		data := PageData{
-			Title:       "SquidCoder.dev - Ferramentas para Desenvolvedores",
-			Description: "Ferramentas gratuitas e eficientes para desenvolvedores",
-			Tools:       tools,
-			Theme:       "dark",
+			Title:         "SquidCoder.dev - Ferramentas para Desenvolvedores",
+			Description:   "Ferramentas gratuitas e eficientes para desenvolvedores",
+			Tools:         tools,
+			Theme:         getThemeFromRequest(r, "dark"),
+			Canonical:     "https://squidcoder.dev/",
+			Keywords:      "ferramentas para desenvolvedores, ferramentas de código, ferramentas web, formatador json, seletor de cores, editor markdown",
+			ImageURL:      "https://squidcoder.dev/static/img/logo.svg",
+			PublishedDate: "2023-01-01",
+			ModifiedDate:  time.Now().Format("2006-01-02"),
 		}
 
 		templateRenderer.RenderTemplate(w, "templates/index.html", data)
@@ -448,414 +631,52 @@ func main() {
 
 	http.HandleFunc("/tools", func(w http.ResponseWriter, r *http.Request) {
 		data := PageData{
-			Title:       "Ferramentas | SquidCoder.dev",
-			Description: "Lista de ferramentas disponíveis",
-			Tools:       tools,
-			Theme:       "dark",
+			Title:         "Ferramentas | SquidCoder.dev",
+			Description:   "Lista de ferramentas disponíveis para desenvolvedores",
+			Tools:         tools,
+			Theme:         getThemeFromRequest(r, "dark"),
+			Canonical:     "https://squidcoder.dev/tools",
+			Keywords:      "ferramentas web, ferramentas desenvolvedor, utilidades de código, ferramentas online gratuitas",
+			ImageURL:      "https://squidcoder.dev/static/img/tools-cover.png",
+			PublishedDate: "2023-01-01",
+			ModifiedDate:  time.Now().Format("2006-01-02"),
 		}
 
 		templateRenderer.RenderTemplate(w, "templates/tools.html", data)
 	})
 
-	http.HandleFunc("/tools/json-formatter", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Formatador JSON | SquidCoder.dev",
-			Description: "Formate, valide e visualize JSON facilmente",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/json-formatter.html", data)
-	})
-
-	http.HandleFunc("/tools/color-picker", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Seletor de Cores | SquidCoder.dev",
-			Description: "Selecione e converta cores entre diferentes formatos",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/color-picker.html", data)
-	})
-
-	http.HandleFunc("/tools/markdown-editor", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Editor Markdown | SquidCoder.dev",
-			Description: "Edite e visualize markdown em tempo real",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/markdown-editor.html", data)
-	})
-
-	// Adicionar às rotas HTTP no main.go
-	http.HandleFunc("/tools/dns-checker", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Verificador de DNS | SquidCoder.dev",
-			Description: "Verifique a propagação de DNS em vários servidores pelo mundo",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/dns-checker.html", data)
-	})
-
-	// Adicionar a API para DNS
-	http.HandleFunc("/api/dns/check", handlers.HandleDNSCheck)
-	http.HandleFunc("/api/dns/servers", handlers.GetDNSServers)
-
-	http.HandleFunc("/tools/base64-decoder", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Decodificador Base64 | SquidCoder.dev",
-			Description: "Decodifique texto em Base64 para seu formato original",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/base64-decoder.html", data)
-	})
-
-	http.HandleFunc("/tools/base64-encoder", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Codificador Base64 | SquidCoder.dev",
-			Description: "Codifique texto para formato Base64",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/base64-encoder.html", data)
-	})
-
-	http.HandleFunc("/tools/hex-decoder", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Decodificador Hexadecimal | SquidCoder.dev",
-			Description: "Decodifique texto em formato hexadecimal para seu formato original",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/hex-decoder.html", data)
-	})
-
-	http.HandleFunc("/tools/hex-encoder", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Codificador Hexadecimal | SquidCoder.dev",
-			Description: "Codifique texto para formato hexadecimal",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/hex-encoder.html", data)
-	})
-
-	http.HandleFunc("/tools/url-decoder", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Decodificador URL | SquidCoder.dev",
-			Description: "Decodifique texto codificado em URL para formato legível",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/url-decoder.html", data)
-	})
-
-	http.HandleFunc("/tools/url-encoder", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Codificador URL | SquidCoder.dev",
-			Description: "Codifique texto para formato seguro para URLs",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/url-encoder.html", data)
-	})
-
-	http.HandleFunc("/tools/html-decoder", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Decodificador HTML | SquidCoder.dev",
-			Description: "Converta entidades HTML para caracteres normais",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/html-decoder.html", data)
-	})
-
-	http.HandleFunc("/tools/html-encoder", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Codificador HTML | SquidCoder.dev",
-			Description: "Converta caracteres para entidades HTML",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/html-encoder.html", data)
-	})
-
-	http.HandleFunc("/tools/quoted-printable-decoder", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Decodificador Printable Citado | SquidCoder.dev",
-			Description: "Converta texto em formato Quoted-Printable para texto normal",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/quoted-printable-decoder.html", data)
-	})
-
-	http.HandleFunc("/tools/quoted-printable-encoder", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Codificador Printable Citado | SquidCoder.dev",
-			Description: "Converta texto normal para formato Quoted-Printable",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/quoted-printable-encoder.html", data)
-	})
-
-	http.HandleFunc("/tools/email-extractor", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Extrator de Emails | SquidCoder.dev",
-			Description: "Extraia todos os endereços de email de um texto",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/email-extractor.html", data)
-	})
-
-	http.HandleFunc("/tools/remove-duplicates", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Remover Linhas Repetidas | SquidCoder.dev",
-			Description: "Remova linhas duplicadas de uma lista de texto",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/remove-duplicates.html", data)
-	})
-
-	http.HandleFunc("/tools/list-sorter", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Ordenador de Listas | SquidCoder.dev",
-			Description: "Ordene uma lista de texto alfabética ou numericamente",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/list-sorter.html", data)
-	})
-
-	http.HandleFunc("/tools/list-randomizer", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Randomizador de Listas | SquidCoder.dev",
-			Description: "Embaralhe uma lista de texto de forma aleatória",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/list-randomizer.html", data)
-	})
-
-	http.HandleFunc("/tools/hash-generator", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Gerador de Hash | SquidCoder.dev",
-			Description: "Gere hashes MD5, SHA-1, SHA-256 e outros para verificar integridade de dados",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/hash-generator.html", data)
-	})
-
-	http.HandleFunc("/tools/jwt-decoder", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Decodificador JWT | SquidCoder.dev",
-			Description: "Decodifique tokens JWT (JSON Web Token) e visualize payload e cabeçalhos",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/jwt-decoder.html", data)
-	})
-
-	http.HandleFunc("/tools/text-case-converter", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Conversor de Texto para Caixa Alta/Baixa | SquidCoder.dev",
-			Description: "Converta texto para MAIÚSCULAS, minúsculas, Capitalizado, e invertido",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/text-case-converter.html", data)
-	})
-
-	http.HandleFunc("/tools/csv-json-converter", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Conversor CSV/JSON | SquidCoder.dev",
-			Description: "Converta dados entre formatos CSV e JSON facilmente",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/csv-json-converter.html", data)
-	})
-
-	http.HandleFunc("/tools/unit-converter", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Conversor de Unidades | SquidCoder.dev",
-			Description: "Converta entre diferentes unidades de temperatura, peso, volume e distância",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/unit-converter.html", data)
-	})
-
-	http.HandleFunc("/tools/date-diff-calculator", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Calculadora de Diferença entre Datas | SquidCoder.dev",
-			Description: "Calcule a diferença em dias, semanas, meses e anos entre duas datas",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/date-diff-calculator.html", data)
-	})
-
-	http.HandleFunc("/tools/cpf-cnpj-validator", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Criador e Validador de CPF/CNPJ | SquidCoder.dev",
-			Description: "Crie CPFs e CNPJs válidos ou verifique a validade de um número existente",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/cpf-cnpj-validator.html", data)
-	})
-
-	http.HandleFunc("/tools/uuid-generator", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Gerador de UUID | SquidCoder.dev",
-			Description: "Gere identificadores únicos universais (UUIDs) em diferentes versões",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/uuid-generator.html", data)
-	})
-
-	http.HandleFunc("/tools/password-generator", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Gerador de Senhas Seguras | SquidCoder.dev",
-			Description: "Crie senhas fortes e seguras para suas contas online",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/password-generator.html", data)
-	})
-
-	http.HandleFunc("/tools/password-strength-analyzer", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Analisador de Força de Senhas | SquidCoder.dev",
-			Description: "Verifique a força e segurança de suas senhas",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/password-strength-analyzer.html", data)
-	})
-
-	http.HandleFunc("/tools/ascii-converter", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Conversor de Texto para Código ASCII | SquidCoder.dev",
-			Description: "Converta texto para códigos ASCII e vice-versa",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/ascii-converter.html", data)
-	})
-
-	http.HandleFunc("/tools/unicode-converter", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Conversor de Texto para Unicode | SquidCoder.dev",
-			Description: "Converta texto para códigos Unicode e vice-versa",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/unicode-converter.html", data)
-	})
-
-	http.HandleFunc("/tools/octal-converter", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Conversor de Texto para Código Octal | SquidCoder.dev",
-			Description: "Converta texto para códigos octais e vice-versa",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-		templateRenderer.RenderTemplate(w, "templates/octal-converter.html", data)
-	})
-
-	http.HandleFunc("/tools/regex-extractor", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Regex Extractor | SquidCoder.dev",
-			Description: "Extraia padrões de texto usando expressões regulares",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/regex-extractor.html", data)
-	})
-
-	http.HandleFunc("/tools/gradient-generator", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Gerador de Gradientes CSS | SquidCoder.dev",
-			Description: "Crie e personalize gradientes CSS para seus projetos",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/gradient-generator.html", data)
-	})
-
-	http.HandleFunc("/tools/box-shadow-generator", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Gerador de Box-Shadow CSS | SquidCoder.dev",
-			Description: "Crie e personalize sombras para seus elementos",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/box-shadow-generator.html", data)
-	})
-
-	http.HandleFunc("/tools/border-radius-generator", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Gerador de Border Radius CSS | SquidCoder.dev",
-			Description: "Crie bordas arredondadas personalizadas para os seus elementos",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/border-radius-generator.html", data)
-	})
-
-	http.HandleFunc("/tools/flexbox-grid-generator", func(w http.ResponseWriter, r *http.Request) {
-		data := PageData{
-			Title:       "Gerador de Flexbox/Grids CSS | SquidCoder.dev",
-			Description: "Crie layouts responsivos com Flexbox e CSS Grid facilmente",
-			Tools:       tools,
-			Theme:       "dark",
-		}
-
-		templateRenderer.RenderTemplate(w, "templates/flexbox-grid-generator.html", data)
-	})
+	// Configurar rota única para todas as ferramentas
+	for _, tool := range tools {
+		// Criamos uma cópia da ferramenta para uso dentro da closure
+		toolCopy := tool
+
+		http.HandleFunc(tool.Route, func(w http.ResponseWriter, r *http.Request) {
+			// Criar keywords específicas para a ferramenta
+			keywords := fmt.Sprintf("ferramenta %s, %s online, %s grátis, squidcoder",
+				toolCopy.Name, toolCopy.Name, toolCopy.Name)
+
+			// Gerar URL canônica
+			canonical := fmt.Sprintf("https://squidcoder.dev%s", toolCopy.Route)
+
+			// Gerar URL da imagem
+			imageURL := fmt.Sprintf("https://squidcoder.dev/static/img/tools/%s.png", toolCopy.ID)
+
+			data := PageData{
+				Title:         toolCopy.Name + " | SquidCoder.dev",
+				Description:   toolCopy.Description,
+				Tools:         tools,
+				Theme:         getThemeFromRequest(r, "dark"),
+				Canonical:     canonical,
+				Keywords:      keywords,
+				ImageURL:      imageURL,
+				PublishedDate: "2023-01-01", // Data quando a ferramenta foi publicada
+				ModifiedDate:  time.Now().Format("2006-01-02"),
+			}
+
+			templatePath := fmt.Sprintf("templates/%s.html", toolCopy.ID)
+			templateRenderer.RenderTemplate(w, templatePath, data)
+		})
+	}
 
 	// Rota para a configuração do tema
 	http.HandleFunc("/set-theme", func(w http.ResponseWriter, r *http.Request) {
@@ -902,4 +723,15 @@ func main() {
 	// Iniciar o servidor
 	log.Printf("Servidor iniciado em http://localhost:%s (HTTPS gerenciado pelo Cloudflare) e (com proteções de segurança)\n", port)
 	log.Fatal(http.ListenAndServe(":"+port, secureHandler))
+}
+
+// Função auxiliar para obter o tema a partir da requisição
+func getThemeFromRequest(r *http.Request, defaultTheme string) string {
+	cookie, err := r.Cookie("theme")
+	if err == nil && cookie.Value != "" {
+		if cookie.Value == "light" || cookie.Value == "dark" {
+			return cookie.Value
+		}
+	}
+	return defaultTheme
 }
